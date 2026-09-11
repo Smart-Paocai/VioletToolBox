@@ -6,7 +6,7 @@
 
 一款面向 Android 设备开发的多功能搞机工具箱，总功能约110项，是国内目前功能最多的免费搞机工具箱，支持大部分品牌的安卓设备,几乎涵盖了所有常用的ADB和Fastboot功能,搞机刷机学习，这一个工具箱就够了！
 
-[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#构建) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#构建) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 ## 功能一览
 

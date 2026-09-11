@@ -6,7 +6,7 @@
 
 Android 端末の開発・保守・フラッシュ向け多機能ツールボックスです。配布プログラム名は `VioletToolBox`、UI 名は「紫罗兰工具箱」です。主要な ADB / Fastboot 作業を含む約 110 の機能を提供します。
 
-[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#ビルド) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#ビルド) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 > [!WARNING]
 > フラッシュ、アンロック、パーティション操作、EDL、Root 関連機能は、データ消失、端末の起動不能、保証への影響を招く可能性があります。端末モデル、ファームウェア、パーティション、モードを確認し、必ずバックアップを取ったうえで自己責任で使用してください。

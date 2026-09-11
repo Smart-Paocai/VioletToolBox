@@ -6,7 +6,7 @@
 
 Bộ công cụ đa năng cho phát triển, bảo trì và flash thiết bị Android. Tên chương trình phát hành là `VioletToolBox`, tên giao diện là “紫罗兰工具箱”. Công cụ có khoảng 110 chức năng, bao gồm phần lớn quy trình ADB / Fastboot phổ biến.
 
-[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#xây-dựng) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#xây-dựng) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 > [!WARNING]
 > Flash, mở khóa, đọc/ghi phân vùng, EDL và chức năng Root có thể làm mất dữ liệu, brick thiết bị hoặc ảnh hưởng bảo hành. Hãy kiểm tra đúng mẫu máy, firmware, phân vùng và chế độ; sao lưu dữ liệu; tự chịu trách nhiệm khi sử dụng.
