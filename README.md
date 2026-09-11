@@ -1,9 +1,6 @@
 # 紫罗兰工具箱（VioletToolBox）
 
-一款面向 Android 设备开发、维护与刷机的多功能工具箱。程序发布名称为 `VioletToolBox`，界面名称为“紫罗兰工具箱”。
-
-> [!WARNING]
-> 刷机、解锁、分区读写、EDL 操作及 Root 相关功能均可能导致数据丢失、设备变砖或失去保修。请确认设备型号、固件包、分区与操作模式正确，提前备份重要数据，并自行承担操作风险。
+一款面向 Android 设备开发的多功能搞机工具箱，总功能约110项，是国内目前功能最多的免费搞机工具箱，支持大部分品牌的安卓设备,几乎涵盖了所有常用的ADB和Fastboot功能,搞机刷机学习，这一个工具箱就够了！
 
 ## 功能一览
 
@@ -123,7 +120,7 @@ dotnet publish SmartTool.csproj -c Release -r win-x64 --self-contained false
 
 ## 下载与运行
 
-请从 [Releases](../../releases) 下载完整发布包并解压后运行 `VioletToolBox.exe`。不要单独删除发布包内的 DLL、`exe`、`avbtool`、PEM 或其他运行依赖。
+请从 [Releases](../../releases) 下载完整发布包并解压后运行 `VioletToolBox.exe`。不要单独删除发布包内的 DLL、`exe`、`avbtool`、PEM 或其他运行依赖，源码需要将`VioletToolBox-win-x64.zip`依赖文件移动到Release目录才能正常使用.
 
 ## 许可证
 
