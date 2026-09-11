@@ -1,0 +1,95 @@
+<UserControl x:Class="test1.HorizontalBattery"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="160" MinHeight="60">
+    <UserControl.Resources>
+        <!-- 低电量闪烁动画（目标：ChargeLevelFill 不透明度） -->
+        <Storyboard x:Key="BlinkStoryboard" RepeatBehavior="Forever" AutoReverse="True">
+            <DoubleAnimation Storyboard.TargetName="ChargeLevelFill"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1" To="0.35" Duration="0:0:0.6"/>
+        </Storyboard>
+
+        <!-- 充电高亮流动动画（目标：ChargingOverlay 的渐变停靠） -->
+        <Storyboard x:Key="ChargingStoryboard" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetName="ChargeGs1" Storyboard.TargetProperty="Offset"
+                             From="0.0" To="1.0" Duration="0:0:2"/>
+            <DoubleAnimation Storyboard.TargetName="ChargeGs2" Storyboard.TargetProperty="Offset"
+                             From="0.2" To="1.2" Duration="0:0:2"/>
+            <DoubleAnimation Storyboard.TargetName="ChargeGs3" Storyboard.TargetProperty="Offset"
+                             From="0.4" To="1.4" Duration="0:0:2"/>
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid>
+        <!-- 电池主体轮廓 -->
+        <Rectangle x:Name="BatteryOutline"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Stroke="#FFB876DD" StrokeThickness="3"
+                   RadiusX="10" RadiusY="10"
+                   Fill="Transparent">
+            <Rectangle.Effect>
+                <DropShadowEffect Color="#FFB876DD" BlurRadius="8" ShadowDepth="3" Direction="270" Opacity="0.5"/>
+            </Rectangle.Effect>
+        </Rectangle>
+
+        <!-- 电池正极（右侧的小凸起） -->
+        <Rectangle Width="10" Height="20" Fill="BlueViolet"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Margin="0,0,-12,0"/>
+
+        <!-- 电量填充，水平左对齐，宽度由 Value/Maximum 决定 -->
+        <Rectangle x:Name="ChargeLevelFill"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Stretch"
+                   Margin="4"
+                   RadiusX="6" RadiusY="6"
+                   Fill="#B266FF"
+                   Width="0"/>
+
+        <!-- 光泽叠层：顶部轻微高光，增强卡通质感 -->
+        <Rectangle x:Name="GlossOverlay"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Stretch"
+                   Margin="4"
+                   RadiusX="6" RadiusY="6"
+                   IsHitTestVisible="False"
+                   Opacity="0.25"
+                   Width="{Binding ElementName=ChargeLevelFill, Path=Width}">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#80FFFFFF" Offset="0.0"/>
+                    <GradientStop Color="#40FFFFFF" Offset="0.2"/>
+                    <GradientStop Color="#10FFFFFF" Offset="0.5"/>
+                    <GradientStop Color="#00FFFFFF" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!-- 充电高亮叠层（可开关），根据 ChargeLevelFill 宽度联动 -->
+        <Rectangle x:Name="ChargingOverlay"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Stretch"
+                   Margin="4"
+                   RadiusX="6" RadiusY="6"
+                   IsHitTestVisible="False"
+                   Opacity="0.28"
+                   Width="{Binding ElementName=ChargeLevelFill, Path=Width}">
+            <Rectangle.Fill>
+                <LinearGradientBrush x:Name="ChargingBrush" StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop x:Name="ChargeGs1" Color="#00D9B3FF" Offset="0.0"/>
+                    <GradientStop x:Name="ChargeGs2" Color="#55D9B3FF" Offset="0.15"/>
+                    <GradientStop x:Name="ChargeGs3" Color="#00D9B3FF" Offset="0.30"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!-- 显示电量百分比文本 -->
+        <TextBlock x:Name="PercentageText"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Foreground="Black"/>
+    </Grid>
+</UserControl>

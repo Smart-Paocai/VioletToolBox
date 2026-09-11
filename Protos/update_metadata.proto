@@ -1,0 +1,46 @@
+syntax = "proto2";
+
+package chromeos_update_engine;
+
+message Extent {
+  optional uint64 start_block = 1;
+  optional uint64 num_blocks = 2;
+}
+
+message InstallOperation {
+  enum Type {
+    REPLACE = 0;
+    REPLACE_BZ = 1;
+    MOVE = 2;
+    BSDIFF = 3;
+    SOURCE_COPY = 4;
+    SOURCE_BSDIFF = 5;
+    ZERO = 6;
+    DISCARD = 7;
+    REPLACE_XZ = 8;
+    PUFFDIFF = 9;
+    BROTLI_BSDIFF = 10;
+    ZUCCHINI = 11;
+    LZ4DIFF_BSDIFF = 12;
+    LZ4DIFF_PUFFDIFF = 13;
+    ZSTD = 14;
+  }
+
+  required Type type = 1;
+  optional uint64 data_offset = 2;
+  optional uint64 data_length = 3;
+  repeated Extent dst_extents = 6;
+  optional bytes data_sha256_hash = 8;
+  optional bytes src_sha256_hash = 9;
+}
+
+message PartitionUpdate {
+  required string partition_name = 1;
+  repeated InstallOperation operations = 8;
+}
+
+message DeltaArchiveManifest {
+  optional uint32 block_size = 3 [default = 4096];
+  repeated PartitionUpdate partitions = 13;
+}
+

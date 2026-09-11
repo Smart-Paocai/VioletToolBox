@@ -1,0 +1,155 @@
+﻿<Window
+    x:Class="SmartTool.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:SmartTool"
+    xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+    mc:Ignorable="d"
+    Title="紫罗兰工具箱"
+    Height="500"
+    Width="600"
+    WindowStyle="None"
+    AllowsTransparency="True"
+    Background="#00FFFFFF"
+    UseLayoutRounding="True"
+    SnapsToDevicePixels="True"
+    TextOptions.TextFormattingMode="Display"
+    TextOptions.TextRenderingMode="ClearType"
+    RenderOptions.BitmapScalingMode="HighQuality">
+    <Border
+        Background="#FFFFFFFF"
+        CornerRadius="20"
+        BorderThickness="1"
+        BorderBrush="#E0E0E0"
+        x:Name="MainContentBorder"
+        RenderTransformOrigin="0.5,0.5">
+        <Border.RenderTransform>
+            <ScaleTransform x:Name="MainScaleTransform" ScaleX="1" ScaleY="1"/>
+        </Border.RenderTransform>
+        <Grid HorizontalAlignment="Left" Width="798">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="109*"/>
+                <ColumnDefinition Width="390*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="103*"/>
+            </Grid.RowDefinitions>
+            <!-- 顶部标题栏，与 MainWindow 保持一致 -->
+            <Border
+                Height="30"
+                VerticalAlignment="Top"
+                Background="#FFB876DD"
+                CornerRadius="20,20,0,0"
+                MouseLeftButtonDown="Border_MouseLeftButtonDown" Grid.ColumnSpan="2" Margin="0,0,200,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="91*" />
+                        <ColumnDefinition Width="29*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="5,0,0,0"/>
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="#FFFFFFFF"
+                        FontWeight="Bold"
+                        FontSize="18"
+                        Height="22" Margin="188,0,0,0" FontFamily="Segoe UI Variable Display" Text="紫罗兰工具箱-无线调试" Width="204"/>
+                    <Button
+                        x:Name="CloseButton"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Background="#00FFFFFF"
+                        Foreground="#FFFFFFFF"
+                        BorderThickness="0"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Cursor="Hand"
+                        Click="CloseButton_Click" Margin="0,2,8,2">
+                        <Button.Content>
+                            <svg:SvgViewbox Source="images/关闭.svg" Width="12" Height="12" />
+                        </Button.Content>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="3">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#FFE81123" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button
+                        x:Name="MinimizeButton"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        Background="#00FFFFFF"
+                        Foreground="#FFFFFFFF"
+                        BorderThickness="0"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Cursor="Hand"
+                        Click="MinimizeButton_Click" Margin="98,2,0,2">
+                        <Button.Content>
+                            <svg:SvgViewbox Source="images/最小化.svg" Width="14" Height="15" />
+                        </Button.Content>
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="3">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#FF404040" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <TextBlock HorizontalAlignment="Left" Margin="23,7,0,0" TextWrapping="Wrap" Text="V1.0.0-251109-F1" VerticalAlignment="Top" Foreground="White"/>
+                </Grid>
+            </Border>
+            <!-- 预留内容区，保持空白 -->
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="598" Margin="0,35,0,0" Grid.RowSpan="2" >
+                <TextBlock HorizontalAlignment="Left" Margin="75,62,0,0" TextWrapping="Wrap" Text="网络调试端口：" VerticalAlignment="Top" FontSize="16"/>
+                <TextBox x:Name="PortTextBox" HorizontalAlignment="Left" Margin="187,58,0,0" TextWrapping="Wrap" Text="5555" VerticalAlignment="Top" Width="206" RenderTransformOrigin="0.561,0.571" FontSize="14" BorderBrush="#FFED9AEF"/>
+                <TextBlock HorizontalAlignment="Left" Margin="66,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Text="WiFi IPV4地址："/>
+                <TextBox x:Name="IpTextBox" HorizontalAlignment="Left" Margin="187,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="206" FontSize="14" BorderBrush="#FFED9AEF"/>
+                <Button x:Name="WiredToWirelessButton" Click="WiredToWirelessButton_Click" Content="有线转无线连接" HorizontalAlignment="Left" Margin="408,104,0,0" VerticalAlignment="Top" Width="137" Height="32" Background="#FFF0BCF1" BorderBrush="#FFED9AEF" RenderTransformOrigin="0.5,0.5" Foreground="White">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="0.157"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="0.247"/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+                <Label Content="使用此功能之前请确保手机与电脑连接的为同一个WIFI，并且手机上已经打开无限调试功能，第一次使用本" Width="588" Height="31" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,188,0,0" BorderBrush="White"/>
+                <Label Content="功能需打开USB调试，并且确保工具可以正确识别到设备，网络调试端口默认5555即可，IP地址到WIFI详情" Width="592" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,212,0,0" BorderBrush="White"/>
+                <Label Content="界面查看。" Width="592" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-259,232,0,0" BorderBrush="White"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,213 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <AssemblyName>VioletToolBox</AssemblyName>
+    <Product>VioletToolBox</Product>
+    <Title>VioletToolBox</Title>
+    <PackageId>VioletToolBox</PackageId>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>logo2.ico</ApplicationIcon>
+    <RuntimeConfigFile>$(MSBuildThisFileDirectory)single-line.runtimeconfig.json</RuntimeConfigFile>
+   
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <SelfContained>false</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="83bd092c1ca3ae795e2690adec399722.jpg" />
+    <None Remove="8b5b2e84f270b49fd4c61f0c6c5a3a79.png" />
+    <None Remove="b_117d80db99aac4929bd4d71bbc9b50e5.jpg" />
+    <None Remove="b_acb46219cb4a7c5616f816e7b67787f0.jpg" />
+    <None Remove="images\about_haohao.jpg" />
+    <None Remove="images\about_renji.jpg" />
+    <None Remove="images\about_wangting.jpg" />
+    <None Remove="images\about_xiri.jpg" />
+    <None Remove="images\about_yuebing.jpg" />
+    <None Remove="images\about_zhyi.jpg" />
+    <None Remove="images\coloros.svg" />
+    <None Remove="images\关闭.svg" />
+    <None Remove="images\文件传输.svg" />
+    <None Remove="images\投屏.svg" />
+    <None Remove="images\刷新.svg" />
+    <None Remove="images\文件.svg" />
+    <None Remove="images\文档.svg" />
+    <None Remove="images\下载.svg" />
+    <None Remove="images\主页.svg" />
+    <None Remove="images\关于.svg" />
+    <None Remove="images\扳手.svg" />
+    <None Remove="images\安全隐私.svg" />
+    <None Remove="images\闪电.svg" />
+    <None Remove="images\格式化SD卡.svg" />
+    <None Remove="images\谷歌.svg" />
+    <None Remove="images\adb.svg" />
+    <None Remove="images\icon-小米归属.svg" />
+    <None Remove="images\文件夹.svg" />
+    <None Remove="images\开始1.svg" />
+    <None Remove="images\暂停.svg" />
+    <None Remove="images\横屏转竖屏.svg" />
+    <None Remove="images\竖屏转横屏.svg" />
+    <None Remove="images\自动旋转.svg" />
+    <None Remove="images\返回.svg" />
+    <None Remove="images\圆圈.svg" />
+    <None Remove="images\icon_多任务.svg" />
+    <None Remove="images\静音.svg" />
+    <None Remove="images\锁屏.svg" />
+    <None Remove="images\音量.svg" />
+    <None Remove="images\安卓.svg" />
+    <None Remove="images\搜索.svg" />
+    <None Remove="images\卸载.svg" />
+    <None Remove="images\查看.svg" />
+    <None Remove="images\雪花.svg" />
+    <None Remove="images\解冻.svg" />
+    <None Remove="images\APK.svg" />
+    <None Remove="images\压缩包.svg" />
+    <None Remove="images\镜像文件.svg" />
+    <None Remove="single-line.runtimeconfig.json" />
+    <None Remove="zs.png" />
+    <None Remove="zs.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="logo2.ico" />
+    <None Update="Protos\update_metadata.proto">
+      <GrpcServices>None</GrpcServices>
+    </None>
+    <None Update="QSaharaServer.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </None>
+    <!-- Official Release packages may provide these runtime tools separately. -->
+    <Content Include="..\断点续传\aria2c.exe" Condition="Exists('..\断点续传\aria2c.exe')">
+      <Link>exe\aria2c.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="exe\fix_usb3.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="..\avbtool\tools\pem\*.pem" Condition="Exists('..\avbtool\tools\pem')">
+      <Link>avbtool\tools\pem\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KernelPatch\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="LKM_Patch\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="single-line.runtimeconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HandyControl" Version="3.5.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.33.2" />
+    <PackageReference Include="SharpVectors" Version="1.8.5" />
+    <PackageReference Include="SharpCompress" Version="0.44.0" />
+    <PackageReference Include="ZstdSharp.Port" Version="0.8.7" />
+    <PackageReference Include="SharpEDL" Version="1.0.4" />
+    <PackageReference Include="System.IO.Ports" Version="9.0.8" />
+    <PackageReference Include="System.Management" Version="9.0.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Resource Include="83bd092c1ca3ae795e2690adec399722.jpg" />
+    <Resource Include="8b5b2e84f270b49fd4c61f0c6c5a3a79.png" />
+    <Resource Include="zs.png" />
+    <Resource Include="b_117d80db99aac4929bd4d71bbc9b50e5.jpg" />
+    <Resource Include="b_acb46219cb4a7c5616f816e7b67787f0.jpg" />
+    <Resource Include="images\about_haohao.jpg" />
+    <Resource Include="images\about_renji.jpg" />
+    <Resource Include="images\about_wangting.jpg" />
+    <Resource Include="images\about_xiri.jpg" />
+    <Resource Include="images\about_yuebing.jpg" />
+    <Resource Include="images\about_zhyi.jpg" />
+    <Resource Include="images\coloros.svg" />
+    <Resource Include="images\关闭.svg" />
+    <Resource Include="images\文件传输.svg" />
+    <Resource Include="images\投屏.svg" />
+    <Resource Include="images\刷新.svg" />
+    <Resource Include="images\文件.svg" />
+    <Resource Include="images\文档.svg" />
+    <Resource Include="images\下载.svg" />
+    <Resource Include="images\主页.svg" />
+    <Resource Include="images\关于.svg" />
+    <Resource Include="images\扳手.svg" />
+    <Resource Include="images\安全隐私.svg" />
+    <Resource Include="images\闪电.svg" />
+    <Resource Include="images\格式化SD卡.svg" />
+    <Resource Include="images\谷歌.svg" />
+    <Resource Include="images\adb.svg" />
+    <Resource Include="images\icon-小米归属.svg" />
+    <Resource Include="images\文件夹.svg" />
+    <Resource Include="images\开始1.svg" />
+    <Resource Include="images\暂停.svg" />
+    <Resource Include="images\横屏转竖屏.svg" />
+    <Resource Include="images\竖屏转横屏.svg" />
+    <Resource Include="images\自动旋转.svg" />
+    <Resource Include="images\返回.svg" />
+    <Resource Include="images\圆圈.svg" />
+    <Resource Include="images\icon_多任务.svg" />
+    <Resource Include="images\静音.svg" />
+    <Resource Include="images\锁屏.svg" />
+    <Resource Include="images\音量.svg" />
+    <Resource Include="images\安卓.svg" />
+    <Resource Include="images\搜索.svg" />
+    <Resource Include="images\卸载.svg" />
+    <Resource Include="images\查看.svg" />
+    <Resource Include="images\雪花.svg" />
+    <Resource Include="images\解冻.svg" />
+    <Resource Include="images\APK.svg" />
+    <Resource Include="images\压缩包.svg" />
+    <Resource Include="images\镜像文件.svg" />
+    <Resource Include="images\盾牌.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Payload_Dumper_C#\Payload_Dumper_C#.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Payload_Dumper_C#\**\*.cs" />
+    <Page Remove="Payload_Dumper_C#\**\*.xaml" />
+    <ApplicationDefinition Remove="Payload_Dumper_C#\**\*.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="paocai.jpg" />
+    <Resource Include="neko.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wx.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="zfb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\telegram.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\抖音.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
+ 

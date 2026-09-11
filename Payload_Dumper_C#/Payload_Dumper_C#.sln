@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payload_Dumper_C#", "Payload_Dumper_C#.csproj", "{46156940-D913-4399-9739-F9DD571EB067}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46156940-D913-4399-9739-F9DD571EB067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46156940-D913-4399-9739-F9DD571EB067}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46156940-D913-4399-9739-F9DD571EB067}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46156940-D913-4399-9739-F9DD571EB067}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5C67EC4-7F96-4F37-88C0-6111D561A437}
+	EndGlobalSection
+EndGlobal
