@@ -1,12 +1,12 @@
-**Ngôn ngữ / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+**Ngôn ngữ / Languages:** [简体中文](../README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
 
 # Hộp công cụ Violet（VioletToolBox）
 
-<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
+<img src="../VioletToolBox/logo2.ico" width="112" alt="VioletToolBox Logo">
 
 Bộ công cụ đa năng cho phát triển, bảo trì và flash thiết bị Android. Tên chương trình phát hành là `VioletToolBox`, tên giao diện là “紫罗兰工具箱”. Công cụ có khoảng 110 chức năng, bao gồm phần lớn quy trình ADB / Fastboot phổ biến.
 
-[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](https://github.com/Smart-Paocai/VioletToolBox/releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](../LICENSE)
 
 > [!WARNING]
 > Flash, mở khóa, đọc/ghi phân vùng, EDL và chức năng Root có thể làm mất dữ liệu, brick thiết bị hoặc ảnh hưởng bảo hành. Hãy kiểm tra đúng mẫu máy, firmware, phân vùng và chế độ; sao lưu dữ liệu; tự chịu trách nhiệm khi sử dụng.
@@ -36,9 +36,9 @@ Bộ công cụ đa năng cho phát triển, bảo trì và flash thiết bị A
 Cần Windows 10/11 và .NET 8 SDK trở lên.
 
 ```powershell
-dotnet restore SmartTool.csproj
-dotnet build SmartTool.csproj -c Debug
-dotnet publish SmartTool.csproj -c Release -r win-x64 --self-contained false
+dotnet restore VioletToolBox/SmartTool.csproj
+dotnet build VioletToolBox/SmartTool.csproj -c Debug
+dotnet publish VioletToolBox/SmartTool.csproj -c Release -r win-x64 --self-contained false
 ```
 
 ## Tải xuống và chạy
@@ -47,4 +47,4 @@ Tải gói hoàn chỉnh từ [Releases](../../releases), giải nén rồi ch�
 
 ## Giấy phép
 
-Phát hành theo GNU General Public License v3.0 hoặc mới hơn. Xem [LICENSE](LICENSE).
+Phát hành theo GNU General Public License v3.0 hoặc mới hơn. Xem [LICENSE](../LICENSE).

@@ -1,12 +1,12 @@
-**語言 / Languages：** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+**語言 / Languages：** [简体中文](../README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
 
 # 紫羅蘭工具箱（VioletToolBox）
 
-<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
+<img src="../VioletToolBox/logo2.ico" width="112" alt="VioletToolBox Logo">
 
 面向 Android 裝置開發與維護的多功能玩機工具箱。發行程式名稱為 `VioletToolBox`，介面名稱為「紫羅蘭工具箱」。工具箱提供約 110 項功能，涵蓋多數品牌裝置的常用 ADB 與 Fastboot 工作流程。
 
-[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](https://github.com/Smart-Paocai/VioletToolBox/releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](../LICENSE)
 
 > [!WARNING]
 > 刷機、解鎖、分割區讀寫、EDL 與 Root 功能可能造成資料遺失、裝置變磚或影響保固。請確認裝置型號、韌體、分割區與操作模式，事先備份重要資料，並自行承擔操作風險。
@@ -36,9 +36,9 @@
 需求：Windows 10/11、.NET 8 SDK 或更高版本。
 
 ```powershell
-dotnet restore SmartTool.csproj
-dotnet build SmartTool.csproj -c Debug
-dotnet publish SmartTool.csproj -c Release -r win-x64 --self-contained false
+dotnet restore VioletToolBox/SmartTool.csproj
+dotnet build VioletToolBox/SmartTool.csproj -c Debug
+dotnet publish VioletToolBox/SmartTool.csproj -c Release -r win-x64 --self-contained false
 ```
 
 ## 下載與執行
@@ -47,4 +47,4 @@ dotnet publish SmartTool.csproj -c Release -r win-x64 --self-contained false
 
 ## 授權條款
 
-採用 GNU General Public License v3.0 或更高版本，詳見 [LICENSE](LICENSE)。
+採用 GNU General Public License v3.0 或更高版本，詳見 [LICENSE](../LICENSE)。

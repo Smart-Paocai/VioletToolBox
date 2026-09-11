@@ -1,12 +1,12 @@
-**언어 / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+**언어 / Languages:** [简体中文](../README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
 
 # 바이올렛 툴박스（VioletToolBox）
 
-<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
+<img src="../VioletToolBox/logo2.ico" width="112" alt="VioletToolBox Logo">
 
 Android 기기 개발·유지보수·플래싱을 위한 다기능 도구 상자입니다. 배포 프로그램 이름은 `VioletToolBox`, UI 이름은 “紫罗兰工具箱”이며, 주요 ADB / Fastboot 작업을 포함한 약 110개 기능을 제공합니다.
 
-[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](https://github.com/Smart-Paocai/VioletToolBox/releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](../LICENSE)
 
 > [!WARNING]
 > 플래싱, 잠금 해제, 파티션 읽기/쓰기, EDL, Root 기능은 데이터 손실·벽돌 상태·보증 영향의 위험이 있습니다. 기기 모델, 펌웨어, 파티션, 모드를 확인하고 백업 후 본인 책임으로 사용하세요.
@@ -36,9 +36,9 @@ Android 기기 개발·유지보수·플래싱을 위한 다기능 도구 상자
 Windows 10/11 및 .NET 8 SDK 이상이 필요합니다.
 
 ```powershell
-dotnet restore SmartTool.csproj
-dotnet build SmartTool.csproj -c Debug
-dotnet publish SmartTool.csproj -c Release -r win-x64 --self-contained false
+dotnet restore VioletToolBox/SmartTool.csproj
+dotnet build VioletToolBox/SmartTool.csproj -c Debug
+dotnet publish VioletToolBox/SmartTool.csproj -c Release -r win-x64 --self-contained false
 ```
 
 ## 다운로드 및 실행
@@ -47,4 +47,4 @@ dotnet publish SmartTool.csproj -c Release -r win-x64 --self-contained false
 
 ## 라이선스
 
-GNU General Public License v3.0 이상입니다. [LICENSE](LICENSE)를 참조하세요.
+GNU General Public License v3.0 이상입니다. [LICENSE](../LICENSE)를 참조하세요.

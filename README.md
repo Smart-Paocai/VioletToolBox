@@ -1,12 +1,12 @@
-**语言 / Languages：** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+**语言 / Languages：** [简体中文](README.md) · [繁體中文](docs/README.zh-TW.md) · [English](docs/README.en.md) · [日本語](docs/README.ja.md) · [हिन्दी](docs/README.hi.md) · [Tiếng Việt](docs/README.vi.md) · [한국어](docs/README.ko.md)
 
 # 紫罗兰工具箱（VioletToolBox）
 
-<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
+<img src="VioletToolBox/logo2.ico" width="112" alt="VioletToolBox Logo">
 
 一款面向 Android 设备开发的多功能搞机工具箱，总功能约110项，是国内目前功能最多的免费搞机工具箱，支持大部分品牌的安卓设备,几乎涵盖了所有常用的ADB和Fastboot功能,搞机刷机学习，这一个工具箱就够了！
 
-[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](https://github.com/Smart-Paocai/VioletToolBox/releases) [![Telegram](https://img.shields.io/badge/Telegram-%40violettoolbox-26A5E4?logo=telegram&logoColor=white)](https://t.me/violettoolbox) [![Website](https://img.shields.io/badge/Website-violettool.top-7C3AED?logo=googlechrome&logoColor=white)](https://violettool.top/) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 ## 功能一览
 
@@ -114,14 +114,14 @@ ROM 专区 API 面向开发者开放，请合理使用，勿滥用服务资源�
 开发环境：Windows 10/11，.NET 8 SDK 或更高版本。
 
 ```powershell
-dotnet restore SmartTool.csproj
-dotnet build SmartTool.csproj -c Debug
+dotnet restore VioletToolBox/SmartTool.csproj
+dotnet build VioletToolBox/SmartTool.csproj -c Debug
 ```
 
 发布 x64 桌面版本：
 
 ```powershell
-dotnet publish SmartTool.csproj -c Release -r win-x64 --self-contained false
+dotnet publish VioletToolBox/SmartTool.csproj -c Release -r win-x64 --self-contained false
 ```
 
 ## 下载与运行
