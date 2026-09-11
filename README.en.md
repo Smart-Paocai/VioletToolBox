@@ -1,8 +1,12 @@
+**Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+
 # VioletToolBox (Purple Violet Toolbox)
+
+<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
 
 A feature-rich Android device development and maintenance toolkit. The release binary is named `VioletToolBox`; its user interface is named “紫罗兰工具箱”. It provides about 110 functions for most Android brands, covering common ADB and Fastboot workflows.
 
-**Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#build) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#build) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 > [!WARNING]
 > Flashing, unlocking, partition access, EDL operations, and Root-related features can erase data, brick a device, or affect warranty coverage. Verify the device model, firmware, partition, and mode; back up important data; and use the tool at your own risk.

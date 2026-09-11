@@ -1,8 +1,12 @@
+**語言 / Languages：** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+
 # 紫羅蘭工具箱（VioletToolBox）
+
+<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
 
 面向 Android 裝置開發與維護的多功能玩機工具箱。發行程式名稱為 `VioletToolBox`，介面名稱為「紫羅蘭工具箱」。工具箱提供約 110 項功能，涵蓋多數品牌裝置的常用 ADB 與 Fastboot 工作流程。
 
-**語言 / Languages：** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#建置) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#建置) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 > [!WARNING]
 > 刷機、解鎖、分割區讀寫、EDL 與 Root 功能可能造成資料遺失、裝置變磚或影響保固。請確認裝置型號、韌體、分割區與操作模式，事先備份重要資料，並自行承擔操作風險。

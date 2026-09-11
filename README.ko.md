@@ -1,8 +1,12 @@
+**언어 / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+
 # 바이올렛 툴박스（VioletToolBox）
+
+<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
 
 Android 기기 개발·유지보수·플래싱을 위한 다기능 도구 상자입니다. 배포 프로그램 이름은 `VioletToolBox`, UI 이름은 “紫罗兰工具箱”이며, 주요 ADB / Fastboot 작업을 포함한 약 110개 기능을 제공합니다.
 
-**언어 / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#빌드) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#빌드) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 > [!WARNING]
 > 플래싱, 잠금 해제, 파티션 읽기/쓰기, EDL, Root 기능은 데이터 손실·벽돌 상태·보증 영향의 위험이 있습니다. 기기 모델, 펌웨어, 파티션, 모드를 확인하고 백업 후 본인 책임으로 사용하세요.

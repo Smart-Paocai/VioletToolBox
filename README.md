@@ -1,8 +1,12 @@
+**语言 / Languages：** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+
 # 紫罗兰工具箱（VioletToolBox）
+
+<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
 
 一款面向 Android 设备开发的多功能搞机工具箱，总功能约110项，是国内目前功能最多的免费搞机工具箱，支持大部分品牌的安卓设备,几乎涵盖了所有常用的ADB和Fastboot功能,搞机刷机学习，这一个工具箱就够了！
 
-**语言 / Languages：** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#构建) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#构建) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 ## 功能一览
 

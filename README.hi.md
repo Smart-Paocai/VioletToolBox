@@ -1,8 +1,12 @@
+**भाषाएँ / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+
 # वायलेट टूलबॉक्स（VioletToolBox）
+
+<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
 
 Android डिवाइस विकास, रखरखाव और फ्लैशिंग के लिए बहु-कार्यात्मक टूलबॉक्स। रिलीज़ प्रोग्राम का नाम `VioletToolBox` और UI का नाम “紫罗兰工具箱” है। इसमें सामान्य ADB / Fastboot कार्यों सहित लगभग 110 सुविधाएँ हैं।
 
-**भाषाएँ / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#बिल्ड) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#बिल्ड) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 > [!WARNING]
 > फ्लैशिंग, अनलॉकिंग, पार्टिशन पढ़ना/लिखना, EDL और Root सुविधाएँ डेटा हानि, डिवाइस ब्रिक होने या वारंटी पर प्रभाव का कारण बन सकती हैं। मॉडल, फर्मवेयर, पार्टिशन और मोड जाँचें; बैकअप लें; और अपने जोखिम पर उपयोग करें।

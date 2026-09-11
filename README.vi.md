@@ -1,8 +1,12 @@
+**Ngôn ngữ / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+
 # Hộp công cụ Violet（VioletToolBox）
+
+<img src="logo2.ico" width="112" alt="VioletToolBox Logo">
 
 Bộ công cụ đa năng cho phát triển, bảo trì và flash thiết bị Android. Tên chương trình phát hành là `VioletToolBox`, tên giao diện là “紫罗兰工具箱”. Công cụ có khoảng 110 chức năng, bao gồm phần lớn quy trình ADB / Fastboot phổ biến.
 
-**Ngôn ngữ / Languages:** [简体中文](README.md) · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Tiếng Việt](README.vi.md) · [한국어](README.ko.md)
+[![Release](https://img.shields.io/github/v/tag/Smart-Paocai/VioletToolBox?label=Release&color=7c3aed)](../../releases) [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D6)](#xây-dựng) [![.NET](https://img.shields.io/badge/.NET-8.0%2B-512BD4)](#xây-dựng) [![License](https://img.shields.io/github/license/Smart-Paocai/VioletToolBox?label=License)](LICENSE)
 
 > [!WARNING]
 > Flash, mở khóa, đọc/ghi phân vùng, EDL và chức năng Root có thể làm mất dữ liệu, brick thiết bị hoặc ảnh hưởng bảo hành. Hãy kiểm tra đúng mẫu máy, firmware, phân vùng và chế độ; sao lưu dữ liệu; tự chịu trách nhiệm khi sử dụng.
