@@ -4343,7 +4343,7 @@
                         </Grid>
                         <Grid
                             Name="HiddenEnvironmentView"
-                            Visibility="Collapsed"
+                            Visibility="Visible"
                             Background="#FFF7F8FC"
                             Cursor="">
                             <Grid.Resources>
@@ -4430,7 +4430,7 @@
                             <TextBlock Margin="17,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="97" FontFamily="Microsoft YaHei UI" FontSize="12" FontWeight="SemiBold" Foreground="#FF334155"><Run Text="隐藏方案"/><Run Language="zh-cn" Text="："/></TextBlock>
                             <CheckBox x:Name="MagiskAlpha28104CheckBox" Content="Magisk Alpha方案  支持版本：28101~28104" HorizontalAlignment="Left" Margin="76,55,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.304,0.51" Width="334" Style="{StaticResource HiddenEnvironmentSchemeCheckBoxStyle}" Checked="HiddenRootScheme_Checked"/>
                             <CheckBox x:Name="MagiskAlpha29000CheckBox" Content="Magisk Alpha方案  支持版本：29000~最新" HorizontalAlignment="Left" Margin="76,83,0,0" VerticalAlignment="Top" Width="327" Style="{StaticResource HiddenEnvironmentSchemeCheckBoxStyle}" Checked="HiddenRootScheme_Checked"/>
-                            <CheckBox x:Name="SUkiSULKMCheckBox" Content="SUkiSU LKM方案  支持版本：≥4.0 （KernelSU适用≥3.0）" HorizontalAlignment="Left" Margin="76,112,0,0" VerticalAlignment="Top" Width="398" Style="{StaticResource HiddenEnvironmentSchemeCheckBoxStyle}" Checked="HiddenRootScheme_Checked"/>
+                            <CheckBox x:Name="SUkiSULKMCheckBox" Content="SUkiSU LKM方案  支持版本：≥4.1 （KernelSU适用≥3.2）【新】" HorizontalAlignment="Left" Margin="76,112,0,0" VerticalAlignment="Top" Width="398" Style="{StaticResource HiddenEnvironmentSchemeCheckBoxStyle}" Checked="HiddenRootScheme_Checked"/>
                             <CheckBox x:Name="SUkiSUGKICheckBox" Content="SUkiSU GKI/Built-in方案  支持版本：≥3.18" HorizontalAlignment="Left" Margin="76,138,0,0" VerticalAlignment="Top" Width="362" Style="{StaticResource HiddenEnvironmentSchemeCheckBoxStyle}" Checked="HiddenRootScheme_Checked"/>
                             <Button x:Name="StartHiddenRootButton" HorizontalAlignment="Left" Margin="15,166,0,0" VerticalAlignment="Top" Width="154" Click="StartHiddenRootButton_Click" Style="{StaticResource FastbootPrimaryButtonStyle}" Background="#FFB876DD" BorderBrush="#FFB876DD">
                                 <Button.Content>
@@ -4439,7 +4439,7 @@
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
-                            <Button x:Name="DownloadHiddenPackageButton" Content="下载隐藏环境资源包V6.0" HorizontalAlignment="Left" Margin="283,166,0,0" VerticalAlignment="Top" Width="177" Click="DownloadHiddenPackageButton_Click" Style="{StaticResource FastbootSecondaryButtonStyle}"/>
+                            <Button x:Name="DownloadHiddenPackageButton" Content="下载隐藏环境资源包V7.0" HorizontalAlignment="Left" Margin="283,166,0,0" VerticalAlignment="Top" Width="177" Click="DownloadHiddenPackageButton_Click" Style="{StaticResource FastbootSecondaryButtonStyle}"/>
                             <ProgressBar x:Name="HiddenRootProgressBar"
                                          HorizontalAlignment="Left"
                                          VerticalAlignment="Top"
@@ -4507,34 +4507,35 @@
                                       Style="{StaticResource FastbootCardGroupBoxStyle}"
                                       Padding="6"
                                       Margin="0,261,368,0"
-                                      Height="110"
+                                      Height="86"
                                       VerticalAlignment="Top">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="6"/>
+                                        <RowDefinition Height="32"/>
                                     </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
 
-                                    <CheckBox x:Name="DetectApp1CheckBox" Grid.Row="0" Grid.Column="0" Margin="2,0" Content="Momo" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
-                                    <CheckBox x:Name="DetectApp6CheckBox" Grid.Row="0" Grid.Column="1" Margin="2,0" Content="密钥认证" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
-                                    <CheckBox x:Name="DetectApp3CheckBox" Grid.Row="0" Grid.Column="2" Margin="2,0" Content="Hunter" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
-                                    <CheckBox x:Name="DetectApp8CheckBox" Grid.Row="0" Grid.Column="3" Margin="2,0" Content="春秋检测" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
-                                    <CheckBox x:Name="DetectApp9CheckBox" Grid.Row="0" Grid.Column="4" Margin="2,0" Content="MT管理器" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
+                                    <Grid Grid.Row="0" Margin="2,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox x:Name="DetectApp1CheckBox" Grid.Column="0" Content="momo" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
+                                        <CheckBox x:Name="DetectApp7CheckBox" Grid.Column="2" Content="应用检测" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
+                                        <CheckBox x:Name="DetectApp5CheckBox" Grid.Column="4" Content="紫色放大镜" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True" Checked="DetectApp5CheckBox_Checked"/>
+                                        <CheckBox x:Name="DetectApp8CheckBox" Grid.Column="6" Content="春秋检测" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
+                                        <CheckBox x:Name="DetectApp4CheckBox" Grid.Column="8" Content="Luna" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
+                                    </Grid>
 
-                                    <CheckBox x:Name="DetectApp2CheckBox" Grid.Row="1" Grid.Column="0" Margin="2,0" Content="RURU" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
-                                    <CheckBox x:Name="DetectApp5CheckBox" Grid.Row="1" Grid.Column="1" Margin="2,0" Content="紫色放大镜" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True" Checked="DetectApp5CheckBox_Checked"/>
-                                    <CheckBox x:Name="DetectApp4CheckBox" Grid.Row="1" Grid.Column="2" Margin="2,0" Content="Luna" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True"/>
-                                    <CheckBox x:Name="DetectApp7CheckBox" Grid.Row="1" Grid.Column="3" Margin="2,0,0,0" Content="应用检测" HorizontalAlignment="Left" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}" IsChecked="True" Grid.ColumnSpan="2" Width="109"/>
-
-                                    <Button x:Name="InstallDetectAppsButton" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Width="118" Click="InstallDetectAppsButton_Click" HorizontalAlignment="Left" Margin="65,0,0,0" Style="{StaticResource FastbootSecondaryButtonStyle}">
+                                    <Button x:Name="InstallDetectAppsButton" Grid.Row="2" Width="118" Click="InstallDetectAppsButton_Click" HorizontalAlignment="Right" Margin="2,0" Style="{StaticResource FastbootSecondaryButtonStyle}">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                 <svg:SvgViewbox Source="images/APK.svg" Width="14" Height="14" Margin="0,0,6,0"/>
@@ -4546,8 +4547,8 @@
                             </GroupBox>
                             <GroupBox Header="模块安装"
                                       Style="{StaticResource FastbootCardGroupBoxStyle}"
-                                      Margin="0,378,368,0"
-                                      Height="340"
+                                      Margin="0,354,368,0"
+                                      Height="364"
                                       VerticalAlignment="Top">
                                 <Grid Margin="0,0,0,-7">
                                     <Button x:Name="StartModuleInstallButton" Content="开始安装" HorizontalAlignment="Right" VerticalAlignment="Top" Width="118" Click="StartModuleInstallButton_Click" Style="{StaticResource FastbootSecondaryButtonStyle}" Margin="0,-1,0,0"/>
@@ -4600,9 +4601,9 @@
                                         </ListBox.ItemTemplate>
                                     </ListBox>
                                     <TextBlock HorizontalAlignment="Left" Margin="0,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="319" FontFamily="Microsoft YaHei UI" FontSize="12" Foreground="#FF334155"><Run Text="拖动一个或多个模块到窗口，自动识别"/><Run Language="zh-cn" Text="ROOT"/><Run Text="管理器并安装"/></TextBlock>
-                                    <Button x:Name="ClearModuleListButton" Content="清空列表" HorizontalAlignment="Left" Margin="374,292,0,0" VerticalAlignment="Top" Width="81" Click="ClearModuleListButton_Click" Style="{StaticResource FastbootSecondaryButtonStyle}"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="0,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="12" Foreground="#FF64748B" RenderTransformOrigin="0.497,0.824" Width="231"><Run Text="支持自动过滤模块文件，"/><Run Language="zh-cn" Text="排除无关多余"/><Run Text="文件"/></TextBlock>
-                                    <Button HorizontalAlignment="Left" Margin="281,291,0,0" VerticalAlignment="Top" Width="84" BorderBrush="#FFE6E6E6" Background="SkyBlue" Click="SelectModuleButton_Click" Style="{StaticResource FastbootPrimaryButtonStyle}" ToolTip="手动选择模块文件">
+                                    <Button x:Name="ClearModuleListButton" Content="清空列表" HorizontalAlignment="Left" Margin="374,317,0,0" VerticalAlignment="Top" Width="81" Click="ClearModuleListButton_Click" Style="{StaticResource FastbootSecondaryButtonStyle}"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="0,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Microsoft YaHei UI" FontSize="12" Foreground="#FF64748B" RenderTransformOrigin="0.497,0.824" Width="231"><Run Text="支持自动过滤模块文件，"/><Run Language="zh-cn" Text="排除无关多余"/><Run Text="文件"/></TextBlock>
+                                    <Button HorizontalAlignment="Left" Margin="281,317,0,0" VerticalAlignment="Top" Width="84" BorderBrush="#FFE6E6E6" Background="SkyBlue" Click="SelectModuleButton_Click" Style="{StaticResource FastbootPrimaryButtonStyle}" ToolTip="手动选择模块文件">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <svg:SvgViewbox Source="images/文件夹.svg" Width="16" Height="16" Margin="0,0,5,0"/>
                                             <TextBlock Text="选择" VerticalAlignment="Center" Foreground="White"/>
@@ -8952,7 +8953,7 @@
                         </Grid>
                         <Grid
                         Name="AndroidGeneralView"
-                        Visibility="Visible"    
+                        Visibility="Collapsed"
                         Background="White">
                             <GroupBox
                             Header="合并散包super"

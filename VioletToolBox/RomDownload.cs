@@ -594,6 +594,7 @@ namespace WpfApp1
         private string _activeRomSelectSeries = string.Empty;
         private readonly Dictionary<string, Dictionary<string, RomDeviceConfig>> _romSelectDeviceConfigsBySeriesKey = new Dictionary<string, Dictionary<string, RomDeviceConfig>>(StringComparer.OrdinalIgnoreCase);
         private Dictionary<string, List<string>> _romSelectLinksByVersionName = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+        private Dictionary<string, List<RomApiLinkOption>> _romSelectLinkOptionsByVersionName = new Dictionary<string, List<RomApiLinkOption>>(StringComparer.OrdinalIgnoreCase);
         private Dictionary<string, RomItemConfig> _romSelectItemsByVersionName = new Dictionary<string, RomItemConfig>(StringComparer.OrdinalIgnoreCase);
         private string _lenovoQueryResolvedDownloadUrl = string.Empty;
         private string _lenovoQueryLastSummaryText = string.Empty;
@@ -842,8 +843,16 @@ namespace WpfApp1
         private sealed class RomApiDownloadLinkResponse
         {
             public List<string> Links { get; set; } = new List<string>();
+            public List<RomApiLinkOption> LinkOptions { get; set; } = new List<RomApiLinkOption>();
             public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             public string ResolveRoute { get; set; } = string.Empty;
+        }
+
+        private sealed class RomApiLinkOption
+        {
+            public string Label { get; set; } = string.Empty;
+            public string Url { get; set; } = string.Empty;
+            public bool IsPrimary { get; set; }
         }
 
         private static string ToRomApiPackageType(string? packageType)
@@ -1023,6 +1032,59 @@ namespace WpfApp1
                 .ToList();
 
             return archiveLinks.Count > 0 ? archiveLinks : cleaned;
+        }
+
+        private static bool IsXiaomiRomBrand(string? brand)
+        {
+            return string.Equals(brand, "Xiaomi", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(brand, "Redmi", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string FormatRomLinkOutput(
+            string? brand,
+            IReadOnlyList<string> links,
+            IReadOnlyList<RomApiLinkOption>? linkOptions)
+        {
+            if (!IsXiaomiRomBrand(brand))
+            {
+                return string.Join(Environment.NewLine, links);
+            }
+
+            var lines = new List<string>();
+            for (var index = 0; index < links.Count; index++)
+            {
+                var link = CleanLink(links[index]);
+                if (string.IsNullOrWhiteSpace(link)) continue;
+
+                var option = linkOptions?.FirstOrDefault(candidate =>
+                    string.Equals(CleanLink(candidate.Url), link, StringComparison.OrdinalIgnoreCase));
+                var label = option?.Label?.Trim();
+                if (string.IsNullOrWhiteSpace(label))
+                {
+                    label = "线路二";
+                }
+
+                lines.Add($"{label}：{link}");
+            }
+
+            return string.Join(Environment.NewLine, lines);
+        }
+
+        private static string GetPrimaryRomLink(
+            IReadOnlyList<string> links,
+            IReadOnlyList<RomApiLinkOption>? linkOptions)
+        {
+            var primary = linkOptions?
+                .FirstOrDefault(option => option.IsPrimary && !string.IsNullOrWhiteSpace(option.Url))?
+                .Url;
+            primary = CleanLink(primary ?? string.Empty);
+            if (!string.IsNullOrWhiteSpace(primary) &&
+                links.Any(link => string.Equals(CleanLink(link), primary, StringComparison.OrdinalIgnoreCase)))
+            {
+                return primary;
+            }
+
+            return links.Count > 0 ? CleanLink(links[0]) : string.Empty;
         }
 
         private static string? TryGetString(JsonElement el, string name)
@@ -2189,6 +2251,7 @@ namespace WpfApp1
                 _romSelectUiUpdating = wasUpdating;
             }
             _romSelectLinksByVersionName.Clear();
+            _romSelectLinkOptionsByVersionName.Clear();
             _romSelectItemsByVersionName.Clear();
         }
 
@@ -2372,6 +2435,7 @@ namespace WpfApp1
                 _romSelectUiUpdating = wasUpdating;
             }
             _romSelectLinksByVersionName.Clear();
+            _romSelectLinkOptionsByVersionName.Clear();
             _romSelectItemsByVersionName.Clear();
         }
 
@@ -2466,6 +2530,7 @@ namespace WpfApp1
             {
                 RomSelectVersionComboBox.Items.Clear();
                 _romSelectLinksByVersionName.Clear();
+                _romSelectLinkOptionsByVersionName.Clear();
                 _romSelectItemsByVersionName.Clear();
                 foreach (var item in deviceConfig.Items)
                 {
@@ -3219,7 +3284,9 @@ namespace WpfApp1
                 }
                 else
                 {
-                    SetRomSelectOutput(string.Join(Environment.NewLine, links));
+                    var versionName = (RomSelectVersionComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+                    _romSelectLinkOptionsByVersionName.TryGetValue(versionName, out var linkOptions);
+                    SetRomSelectOutput(FormatRomLinkOutput(_activeRomSelectBrand, links, linkOptions));
                 }
             }
             catch (Exception ex)
@@ -3360,6 +3427,7 @@ namespace WpfApp1
         {
             var links = GetSelectedRomSelectDownloadLinks();
             var versionName = (RomSelectVersionComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            _romSelectLinkOptionsByVersionName.TryGetValue(versionName, out var linkOptions);
             var packageType = ToRomApiPackageType(GetSelectedRomSelectPackageType());
             var brand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomSelectBrand;
             var series = (RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomSelectSeries;
@@ -3387,6 +3455,7 @@ namespace WpfApp1
 
                         var response = await FetchRomApiDownloadLinksAsync(packageType, brand, series, device, versionName, CancellationToken.None).ConfigureAwait(true);
                         links = PreferRomArchiveLinks(packageType, brand, response.Links);
+                        linkOptions = response.LinkOptions ?? new List<RomApiLinkOption>();
                         if (links.Count > 0)
                         {
                             var routeDisplayName = GetRomResolveRouteDisplayName(response.ResolveRoute);
@@ -3398,10 +3467,12 @@ namespace WpfApp1
                             if (refreshC16Link)
                             {
                                 _romSelectLinksByVersionName.Remove(versionName);
+                                _romSelectLinkOptionsByVersionName.Remove(versionName);
                             }
                             else
                             {
                                 _romSelectLinksByVersionName[versionName] = links.ToList();
+                                _romSelectLinkOptionsByVersionName[versionName] = linkOptions.ToList();
                             }
                         }
                     }
@@ -3493,14 +3564,26 @@ namespace WpfApp1
 
             if (links.Count > 0)
             {
-                SetRomSelectOutput(string.Join(Environment.NewLine, links), "成功");
+                SetRomSelectOutput(FormatRomLinkOutput(brand, links, linkOptions), "成功");
             }
 
             try
             {
-                string linksText = string.Join(Environment.NewLine, links);
+                var copyPrimaryOnly = IsXiaomiRomBrand(brand);
+                string linksText = copyPrimaryOnly
+                    ? GetPrimaryRomLink(links, linkOptions)
+                    : string.Join(Environment.NewLine, links);
+                var copiedRecommended = copyPrimaryOnly &&
+                    linkOptions?.Any(option => option.IsPrimary &&
+                        string.Equals(CleanLink(option.Url), linksText, StringComparison.OrdinalIgnoreCase)) == true;
                 System.Windows.Clipboard.SetText(linksText);
-                AppendRomDownloadLog("警告", "已复制下载链接到剪切板，请复制链接到下载器下载");
+                AppendRomDownloadLog(
+                    "警告",
+                    copyPrimaryOnly
+                        ? copiedRecommended
+                            ? "已复制线路一链接到剪切板，请复制链接到下载器下载"
+                            : "已复制线路二链接到剪切板，请复制链接到下载器下载"
+                        : "已复制下载链接到剪切板，请复制链接到下载器下载");
             }
             catch (Exception ex)
             {

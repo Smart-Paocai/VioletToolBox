@@ -444,7 +444,7 @@ namespace WpfApp1
                 ["系统"] = "System",
                 ["下载错误"] = "Download Error",
                 ["下载配置"] = "Download Settings",
-                ["下载隐藏环境资源包V6.0"] = "Download Environment Resources V6.0",
+                ["下载隐藏环境资源包V7.0"] = "Download Environment Resources V7.0",
                 ["显示"] = "Show",
                 ["线程数"] = "Threads",
                 ["线刷"] = "Fastboot Flash",

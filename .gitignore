@@ -35,6 +35,8 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+# Server-side ROM API source and deployment files are maintained privately.
+VioletRomApi/
 # Local state and build artifacts from AI coding assistants
 /.codex/
 /.codex-*/

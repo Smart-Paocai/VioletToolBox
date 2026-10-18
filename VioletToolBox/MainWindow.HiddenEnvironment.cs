@@ -152,7 +152,7 @@ namespace WpfApp1
         {
             try
             {
-                string url = "https://wwauy.lanzouv.com/izhBC42c9y7e";
+                string url = "https://violettoolbox.lanzouv.com/iUzOI4ayjlze";
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
                     FileName = url,
@@ -174,14 +174,10 @@ namespace WpfApp1
                 var apkMapping = new Dictionary<System.Windows.Controls.CheckBox, (string fileName, string displayName)>
                 {
                     { DetectApp1CheckBox, ("1.apk", "momo") },
-                    { DetectApp2CheckBox, ("2.apk", "ruru") },
-                    { DetectApp3CheckBox, ("3.apk", "Hunter") },
-                    { DetectApp4CheckBox, ("4.apk", "Luna") },
+                    { DetectApp7CheckBox, ("7.apk", "应用检测") },
                     { DetectApp5CheckBox, ("5.apk", "紫色放大镜") },
-                    { DetectApp6CheckBox, ("6.apk", "密钥认证") },
-                    { DetectApp7CheckBox, ("7.apk", "应用列表检测器") },
-                    { DetectApp8CheckBox, ("8.apk", "春秋检测3.8") },
-                    { DetectApp9CheckBox, ("9.apk", "MT管理器") }
+                    { DetectApp8CheckBox, ("8.apk", "春秋检测") },
+                    { DetectApp4CheckBox, ("4.apk", "Luna") }
                 };
 
                 // 获取选中的APK
@@ -575,36 +571,6 @@ namespace WpfApp1
 
             AppendHiddenRootLogStatus("错误", "Error");
             AddHiddenRootLog("错误", $"模块 {moduleName} 安装失败: {result}");
-            return false;
-        }
-
-        private async Task<bool> ReplaceHiddenRootKeyFileAsync()
-        {
-            AddHiddenRootLog("信息", "替换密钥文件...");
-
-            // su -s selects a shell executable on Magisk and must not be used as
-            // the command-execution switch. Use the same verified su -c form as
-            // the ROOT permission probe, then replace the protected file safely.
-            string result = await ExecuteAdbCommandWithOutput(
-                "shell \"su -c 'mkdir -p /data/adb/tricky_store && " +
-                "chmod 700 /data/adb/tricky_store && " +
-                "(chmod u+w /data/adb/tricky_store/target.txt 2>/dev/null || true) && " +
-                "(chattr -i /data/adb/tricky_store/target.txt 2>/dev/null || true) && " +
-                "rm -f /data/adb/tricky_store/target.txt /data/adb/tricky_store/target.txt.tmp && " +
-                "cp /storage/emulated/0/violet/target.txt /data/adb/tricky_store/target.txt.tmp && " +
-                "chown 0:0 /data/adb/tricky_store/target.txt.tmp && " +
-                "chmod 600 /data/adb/tricky_store/target.txt.tmp && " +
-                "mv -f /data/adb/tricky_store/target.txt.tmp /data/adb/tricky_store/target.txt && " +
-                "test -s /data/adb/tricky_store/target.txt && echo key_replace_ok'\"");
-
-            if (result.Contains("key_replace_ok", StringComparison.Ordinal))
-            {
-                AppendHiddenRootLogStatus("成功", "OK");
-                return true;
-            }
-
-            AppendHiddenRootLogStatus("错误", "Error");
-            AddHiddenRootLog("错误", $"替换密钥文件失败: {result}");
             return false;
         }
 
@@ -1291,65 +1257,27 @@ namespace WpfApp1
                             await ConfigureSukiSuSelinuxHideAsync(extractPath);
                         }
 
-                        // 查询内核版本 (如 5.15.167-android13-8-00014-... 可同时得到内核5.15和安卓13)
-                        AddHiddenRootLog("信息", "查询内核版本...");
-                        string kernelVersion = await ExecuteAdbCommandWithOutput("shell uname -r");
-                        AppendHiddenRootLogStatus("信息", kernelVersion);
+                        // 按文件名前缀解析新版资源包中的模块zip (刷入顺序: zygisk → hma → omk → yuri → add)
+                        string? zygiskZip = FindModuleZip(extractPath, "zygisk-next");
+                        string? hmaZip = FindModuleZip(extractPath, "HMA-OSS");
+                        string? omkZip = FindModuleZip(extractPath, "omk");
+                        string? yuriZip = FindModuleZip(extractPath, "yuri");
+                        string? addZip = FindModuleZip(extractPath, "add");
+                        string? susfsZip = FindModuleZip(extractPath, "susfs");
+                        string? helpZip = FindModuleZip(extractPath, "help");
+                        string? lspZip = FindModuleZip(extractPath, "lsp");
 
-                        // 查询安卓版本（兜底：内核字符串不带androidNN标记时使用）
-                        AddHiddenRootLog("信息", "查询安卓版本...");
-                        string androidVersion = await ExecuteAdbCommandWithOutput("shell getprop ro.build.version.release");
-                        AppendHiddenRootLogStatus("信息", androidVersion);
-
-                        // 查询设备厂商/型号信息 (Xiaomi/Redmi/OnePlus等)
-                        AddHiddenRootLog("信息", "查询设备厂商...");
-                        string deviceInfo = await ExecuteAdbCommandWithOutput("shell \"getprop ro.product.manufacturer; getprop ro.product.brand; getprop ro.product.model; getprop ro.product.device; getprop ro.product.marketname\"");
-                        AppendHiddenRootLogStatus("信息", deviceInfo);
-                        UpdateHiddenRootProgress(34, "正在匹配设备环境");
-
-                        // 小米/红米设备: 直接跳过, 命中后不再检查处理器/分区表
-                        bool isXiaomiRedmi = deviceInfo.IndexOf("xiaomi", StringComparison.OrdinalIgnoreCase) >= 0
-                            || deviceInfo.IndexOf("redmi", StringComparison.OrdinalIgnoreCase) >= 0
-                            || deviceInfo.Contains("小米")
-                            || deviceInfo.Contains("红米");
-
-                        string? selectedPathmaskModule = null;
-                        if (isXiaomiRedmi)
+                        var missingCoreModules = new List<string>();
+                        if (zygiskZip == null) missingCoreModules.Add("zygisk-next");
+                        if (hmaZip == null) missingCoreModules.Add("HMA-OSS");
+                        if (omkZip == null) missingCoreModules.Add("omk");
+                        if (yuriZip == null) missingCoreModules.Add("yuri");
+                        if (addZip == null) missingCoreModules.Add("add");
+                        if (missingCoreModules.Count > 0)
                         {
-                            AddHiddenRootLog("提示", "跳过 PathMask 模块刷入: 小米/红米设备");
-                        }
-                        else
-                        {
-                            // 查询分区表 (通过bootloader分区特征判断平台, 无需root)
-                            AddHiddenRootLog("信息", "查询分区表...");
-                            string partInfo = await ExecuteAdbCommandWithOutput("shell ls -al /dev/block/by-name/");
-                            AppendHiddenRootLogStatus("成功", "OK");
-
-                            // 存在 lk / lk_a / lk_b 分区 -> 不刷入 (小米系高通bootloader特征)
-                            bool hasLK = System.Text.RegularExpressions.Regex.IsMatch(partInfo, @"\blk(?:_a|_b)?\s*->");
-                            // 天玑(MTK)平台特征分区 (preloader/proinfo/nvram/md1img) -> 不刷入
-                            bool isMTK = System.Text.RegularExpressions.Regex.IsMatch(partInfo, @"\b(preloader|proinfo|nvram|md1img)\b", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-                            if (hasLK || isMTK)
-                            {
-                                List<string> skipReasons = new List<string>();
-                                if (hasLK) skipReasons.Add("存在 lk/lk_a/lk_b 分区");
-                                if (isMTK) skipReasons.Add("天玑(MTK)平台分区特征");
-                                AddHiddenRootLog("提示", $"跳过 PathMask 模块刷入: {string.Join(" + ", skipReasons)}");
-                            }
-                            else
-                            {
-                                // 根据内核版本 + 安卓版本选择对应的 PathMask 模块
-                                selectedPathmaskModule = SelectPathmaskModule(kernelVersion, androidVersion, extractPath);
-                                if (selectedPathmaskModule != null)
-                                {
-                                    AddHiddenRootLog("信息", $"匹配到 PathMask 模块: {Path.GetFileName(selectedPathmaskModule)}");
-                                }
-                                else
-                                {
-                                    AddHiddenRootLog("警告", "未匹配到对应内核的 PathMask 模块，将跳过安装");
-                                }
-                            }
+                            AddHiddenRootLog("错误", $"资源包缺少模块: {string.Join("、", missingCoreModules)}");
+                            FailHiddenRootProgress("资源包模块缺失");
+                            return;
                         }
 
                         UpdateHiddenRootProgress(38, "正在创建手机目录");
@@ -1365,11 +1293,9 @@ namespace WpfApp1
                         // 5. 推送文件到手机
                         AddHiddenRootLog("信息", "推送文件到手机...");
 
-                        // 获取所有文件（包括子目录中的文件），但排除.apk文件和pathmask内核模块目录
-                        string pathmaskDir = Path.Combine(extractPath, "pathmask");
+                        // 获取所有文件（包括子目录中的文件），但排除.apk文件
                         string[] allFiles = Directory.GetFiles(extractPath, "*.*", SearchOption.AllDirectories)
                             .Where(f => !f.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
-                            .Where(f => !f.StartsWith(pathmaskDir + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                             .ToArray();
 
                         if (allFiles.Length == 0)
@@ -1379,10 +1305,9 @@ namespace WpfApp1
                             return;
                         }
 
-                        int totalPushFileCount = allFiles.Length + (selectedPathmaskModule != null ? 1 : 0);
+                        int totalPushFileCount = allFiles.Length;
                         int currentPushFileIndex = 0;
-                        long totalPushBytes = allFiles.Sum(file => new FileInfo(file).Length)
-                            + (selectedPathmaskModule != null ? new FileInfo(selectedPathmaskModule).Length : 0);
+                        long totalPushBytes = allFiles.Sum(file => new FileInfo(file).Length);
                         long completedPushBytes = 0;
 
                         foreach (string file in allFiles)
@@ -1418,40 +1343,6 @@ namespace WpfApp1
 
                         AppendHiddenRootLogStatus("成功", "Done");
 
-                        // 推送匹配内核版本的 PathMask 模块
-                        if (selectedPathmaskModule != null)
-                        {
-                            string pmFileName = Path.GetFileName(selectedPathmaskModule);
-                            long fileSize = new FileInfo(selectedPathmaskModule).Length;
-                            long fileStartBytes = completedPushBytes;
-                            currentPushFileIndex++;
-                            AddHiddenRootLog("信息", $"推送 PathMask 模块 {pmFileName}...");
-
-                            (bool Success, string Output) pmPushResult = await ExecuteAdbPushWithProgressAsync(
-                                selectedPathmaskModule,
-                                $"/storage/emulated/0/violet/{pmFileName}",
-                                filePercent =>
-                                {
-                                    double transferredBytes = fileStartBytes + (fileSize * filePercent / 100d);
-                                    double transferPercent = totalPushBytes > 0
-                                        ? transferredBytes * 100d / totalPushBytes
-                                        : 100d;
-                                    UpdateHiddenRootProgress(
-                                        40 + transferPercent * 0.22,
-                                        $"ADB推送 {currentPushFileIndex}/{totalPushFileCount}: {pmFileName} ({filePercent:0}%)");
-                                });
-
-                            if (!pmPushResult.Success)
-                            {
-                                AddHiddenRootLog("错误", $"PathMask 模块推送失败: {pmPushResult.Output}");
-                                FailHiddenRootProgress($"ADB推送失败: {pmFileName}");
-                                return;
-                            }
-
-                            completedPushBytes += fileSize;
-                            AppendHiddenRootLogStatus("成功", "Done");
-                        }
-
                         UpdateHiddenRootProgress(62, "ADB推送完成，正在设置权限");
 
                         // 设置文件权限
@@ -1464,18 +1355,22 @@ namespace WpfApp1
                         // 验证文件是否推送成功
                         AddHiddenRootLog("信息", "验证文件完整性...");
 
-                        // 检查必需的模块文件是否存在
+                        // 检查必需的模块文件是否存在 (新版资源包命名)
                         var requiredModules = new List<string>
                         {
-                            "1.zip",
-                            "2.zip",
-                            "3.zip",
-                            "5.zip",
+                            zygiskZip!,
+                            hmaZip!,
+                            omkZip!,
+                            yuriZip!,
+                            addZip!,
                             "target.txt"
                         };
-                        if (isSUkiSUGKI) requiredModules.Add("8.zip");
-                        if (AddRescueModuleCheckBox?.IsChecked == true) requiredModules.Add("9.zip");
-                        if (InstallZip6CheckBox?.IsChecked == true) requiredModules.Add("6.zip");
+                        string? susfsModule = isSUkiSUGKI ? susfsZip : null;
+                        if (susfsModule != null) requiredModules.Add(susfsModule);
+                        string? rescueModule = AddRescueModuleCheckBox?.IsChecked == true ? helpZip : null;
+                        if (rescueModule != null) requiredModules.Add(rescueModule);
+                        string? lspModule = InstallZip6CheckBox?.IsChecked == true ? lspZip : null;
+                        if (lspModule != null) requiredModules.Add(lspModule);
                    
                         bool allFilesExist = true;
 
@@ -1499,10 +1394,9 @@ namespace WpfApp1
                         AppendHiddenRootLogStatus("成功", "Done");
                         UpdateHiddenRootProgress(68, "正在安装模块");
 
-                        // 6. 安装模块 (1.zip, 2.zip, 3.zip, 5.zip)
-                        string[] firstBatchModules = { "1.zip", "2.zip", "3.zip", "5.zip" };
+                        // 6. 安装核心模块 (zygisk → hma → omk → yuri → add)
+                        string[] firstBatchModules = { zygiskZip!, hmaZip!, omkZip!, yuriZip!, addZip! };
                         int totalModuleCount = firstBatchModules.Length
-                            + (selectedPathmaskModule != null ? 1 : 0)
                             + (isSUkiSUGKI ? 1 : 0)
                             + (AddRescueModuleCheckBox?.IsChecked == true ? 1 : 0)
                             + (InstallZip6CheckBox?.IsChecked == true ? 1 : 0);
@@ -1523,13 +1417,12 @@ namespace WpfApp1
                             await Task.Delay(1000);
                         }
 
-                        // 6.0 安装内核匹配的 PathMask 模块
-                        if (selectedPathmaskModule != null)
+                        // 6.1 GKI模式额外安装susfs
+                        if (susfsModule != null)
                         {
-                            string pmFileName = Path.GetFileName(selectedPathmaskModule);
-                            if (!await InstallHiddenRootModuleAsync(pmFileName, suCommand, moduleInstallCommand))
+                            if (!await InstallHiddenRootModuleAsync(susfsModule, suCommand, moduleInstallCommand))
                             {
-                                FailHiddenRootProgress($"模块安装失败: {pmFileName}");
+                                FailHiddenRootProgress("模块安装失败: susfs");
                                 return;
                             }
 
@@ -1540,12 +1433,12 @@ namespace WpfApp1
                             await Task.Delay(1000);
                         }
 
-                        // 6.1 GKI模式额外安装8.zip
-                        if (isSUkiSUGKI)
+                        // 6.2 如果勾选了添加救砖模块，安装help.zip
+                        if (rescueModule != null)
                         {
-                            if (!await InstallHiddenRootModuleAsync("8.zip", suCommand, moduleInstallCommand))
+                            if (!await InstallHiddenRootModuleAsync(rescueModule, suCommand, moduleInstallCommand))
                             {
-                                FailHiddenRootProgress("模块安装失败: 8.zip");
+                                FailHiddenRootProgress("模块安装失败: 救砖模块(help)");
                                 return;
                             }
 
@@ -1556,12 +1449,12 @@ namespace WpfApp1
                             await Task.Delay(1000);
                         }
 
-                        // 6.2 如果勾选了添加救砖模块，安装9.zip
-                        if (AddRescueModuleCheckBox?.IsChecked == true)
+                        // 6.3 可选安装 LSP 模块 lsp.zip。
+                        if (lspModule != null)
                         {
-                            if (!await InstallHiddenRootModuleAsync("9.zip", suCommand, moduleInstallCommand))
+                            if (!await InstallHiddenRootModuleAsync(lspModule, suCommand, moduleInstallCommand))
                             {
-                                FailHiddenRootProgress("模块安装失败: 9.zip");
+                                FailHiddenRootProgress("模块安装失败: LSPosed(lsp)");
                                 return;
                             }
 
@@ -1570,29 +1463,6 @@ namespace WpfApp1
                                 68 + installedModuleCount * 12d / totalModuleCount,
                                 $"正在安装模块 {installedModuleCount}/{totalModuleCount}");
                             await Task.Delay(1000);
-                        }
-
-                        // 6.3 可选安装 LSP 模块 6.zip。
-                        if (InstallZip6CheckBox?.IsChecked == true)
-                        {
-                            if (!await InstallHiddenRootModuleAsync("6.zip", suCommand, moduleInstallCommand))
-                            {
-                                FailHiddenRootProgress("模块安装失败: 6.zip");
-                                return;
-                            }
-
-                            installedModuleCount++;
-                            UpdateHiddenRootProgress(
-                                68 + installedModuleCount * 12d / totalModuleCount,
-                                $"正在安装模块 {installedModuleCount}/{totalModuleCount}");
-                            await Task.Delay(1000);
-                        }
-
-                        // 7. 首次替换target.txt文件
-                        if (!await ReplaceHiddenRootKeyFileAsync())
-                        {
-                            FailHiddenRootProgress("替换密钥文件失败");
-                            return;
                         }
 
                         UpdateHiddenRootProgress(82, "正在重启设备");
@@ -1630,7 +1500,7 @@ namespace WpfApp1
                                     {
                                         hasDetectedTargetDevice = true;
                                         AppendHiddenRootLogStatus("成功", "OK");
-                                        UpdateHiddenRootProgress(92, "设备已恢复，正在扫描风险文件");
+                                        UpdateHiddenRootProgress(92, "设备已恢复");
                                     }
                                     else
                                     {
@@ -1655,116 +1525,6 @@ namespace WpfApp1
 
                         await Task.Delay(5000);
 
-                        // 9. 扫描并移除风险文件
-                        UpdateHiddenRootProgress(94, "正在扫描风险文件");
-                        AddHiddenRootLog("信息", "扫描风险文件...");
-
-                        List<string> riskFiles = new List<string>();
-
-                        // 扫描风险文件
-                        string[] scanDirs = { "/storage/emulated/0/", "/storage/emulated/0/Download/" };
-                        foreach (string dir in scanDirs)
-                        {
-                            // 扫描.img文件
-                            string imgFiles = await ExecuteAdbCommandWithOutput($"shell find {dir} -maxdepth 1 -name '*.img' 2>/dev/null");
-                            if (!string.IsNullOrEmpty(imgFiles))
-                            {
-                                string[] imgFileList = imgFiles.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                                foreach (string imgFile in imgFileList)
-                                {
-                                    string trimmedFile = imgFile.Trim();
-                                    if (!string.IsNullOrEmpty(trimmedFile))
-                                    {
-                                        riskFiles.Add(trimmedFile);
-                                    }
-                                }
-                            }
-
-                            // 扫描.json文件
-                            string jsonFiles = await ExecuteAdbCommandWithOutput($"shell find {dir} -maxdepth 1 -name '*.json' 2>/dev/null");
-                            if (!string.IsNullOrEmpty(jsonFiles))
-                            {
-                                string[] jsonFileList = jsonFiles.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                                foreach (string jsonFile in jsonFileList)
-                                {
-                                    string trimmedFile = jsonFile.Trim();
-                                    if (!string.IsNullOrEmpty(trimmedFile))
-                                    {
-                                        riskFiles.Add(trimmedFile);
-                                    }
-                                }
-                            }
-
-                            // 扫描.xml文件
-                            string xmlFiles = await ExecuteAdbCommandWithOutput($"shell find {dir} -maxdepth 1 -name '*.xml' 2>/dev/null");
-                            if (!string.IsNullOrEmpty(xmlFiles))
-                            {
-                                string[] xmlFileList = xmlFiles.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                                foreach (string xmlFile in xmlFileList)
-                                {
-                                    string trimmedFile = xmlFile.Trim();
-                                    if (!string.IsNullOrEmpty(trimmedFile))
-                                    {
-                                        riskFiles.Add(trimmedFile);
-                                    }
-                                }
-                            }
-
-                            // 扫描.zip文件
-                            string zipFiles = await ExecuteAdbCommandWithOutput($"shell find {dir} -maxdepth 1 -name '*.zip' 2>/dev/null");
-                            if (!string.IsNullOrEmpty(zipFiles))
-                            {
-                                string[] zipFileList = zipFiles.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                                foreach (string zipFile in zipFileList)
-                                {
-                                    string trimmedFile = zipFile.Trim();
-                                    if (!string.IsNullOrEmpty(trimmedFile))
-                                    {
-                                        riskFiles.Add(trimmedFile);
-                                    }
-                                }
-                            }
-
-                            // 扫描target.txt文件
-                            string targetFile = await ExecuteAdbCommandWithOutput($"shell find {dir} -maxdepth 1 -name 'target.txt' 2>/dev/null");
-                            if (!string.IsNullOrEmpty(targetFile))
-                            {
-                                string[] targetFileList = targetFile.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-                                foreach (string target in targetFileList)
-                                {
-                                    string trimmedFile = target.Trim();
-                                    if (!string.IsNullOrEmpty(trimmedFile))
-                                    {
-                                        riskFiles.Add(trimmedFile);
-                                    }
-                                }
-                            }
-                        }
-
-                        // 检查MT2文件夹
-                        string mt2Check = await ExecuteAdbCommandWithOutput("shell ls /storage/emulated/0/MT2/ 2>&1");
-                        if (!mt2Check.Contains("No such file") && !mt2Check.Contains("does not exist"))
-                        {
-                            riskFiles.Add("/storage/emulated/0/MT2/");
-                        }
-
-                        AppendHiddenRootLogStatus(riskFiles.Count == 0 ? "成功" : "警告", $"{riskFiles.Count} 项");
-                        UpdateHiddenRootProgress(96, "正在移除风险文件");
-
-                        // 移除风险文件
-                        AddHiddenRootLog("信息", "移除风险文件...");
-                        foreach (string riskFile in riskFiles)
-                        {
-                            if (riskFile.EndsWith("/"))
-                            {
-                                await ExecuteAdbCommand($"shell rm -rf \"{riskFile}\"");
-                            }
-                            else
-                            {
-                                await ExecuteAdbCommand($"shell rm -f \"{riskFile}\"");
-                            }
-                        }
-                        AppendHiddenRootLogStatus("成功", "Done");
                         UpdateHiddenRootProgress(97, "正在启动 HMA-OSS");
 
 
@@ -1772,14 +1532,6 @@ namespace WpfApp1
                         AddHiddenRootLog("信息", "启动 HMA-OSS...");
                         await ExecuteAdbCommand("shell monkey -p org.frknkrc44.hma_oss 1");
                         AppendHiddenRootLogStatus("成功", "OK");
-                        UpdateHiddenRootProgress(98, "正在再次替换密钥文件");
-
-                        // HMA-OSS启动后再次替换，确保重启后的目标文件生效
-                        if (!await ReplaceHiddenRootKeyFileAsync())
-                        {
-                            FailHiddenRootProgress("再次替换密钥文件失败");
-                            return;
-                        }
 
                         UpdateHiddenRootProgress(99, "正在清理临时文件");
                         await Task.Delay(5000);
@@ -1815,64 +1567,18 @@ namespace WpfApp1
                     }
                 }
 
-        // 根据内核版本和安卓版本，从解压目录的pathmask文件夹中选择匹配的模块
-        // 文件名格式: a<安卓大版本>-<内核主.次版本>.zip (如 a15-6.6.zip)
-        // 匹配优先级: 内核+安卓都匹配 > 仅内核匹配(选安卓最接近的)
-        private string? SelectPathmaskModule(string kernelVersion, string androidVersion, string extractPath)
+        // 在解压目录顶层按文件名前缀查找模块zip (如 "omk" -> "omk.zip" / "omk-mod.zip")
+        // 返回纯文件名（用于拼手机端路径），文件名带版本号后缀也能匹配，资源包更新模块无需改代码
+        private static string? FindModuleZip(string extractPath, string prefix)
         {
             try
             {
-                string pathmaskDir = Path.Combine(extractPath, "pathmask");
-                if (!Directory.Exists(pathmaskDir)) return null;
-
-                // 解析内核主版本号 (如 "6.6.127-4k-g46a034eca005-dirty" -> "6.6")
-                var kernelMatch = System.Text.RegularExpressions.Regex.Match(kernelVersion.Trim(), @"^(\d+)\.(\d+)");
-                if (!kernelMatch.Success) return null;
-                string kernelPrefix = $"{kernelMatch.Groups[1].Value}.{kernelMatch.Groups[2].Value}";
-
-                // 解析安卓大版本: 优先从内核字符串提取 androidNN 标记
-                // (如 5.15.167-android13-8-00014-... -> 13, 一次性同时得到内核版本和安卓版本)
-                int androidMajor = 0;
-                var kernelAndroidMatch = System.Text.RegularExpressions.Regex.Match(kernelVersion, @"android(\d+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                if (kernelAndroidMatch.Success)
-
-                {
-                    int.TryParse(kernelAndroidMatch.Groups[1].Value, out androidMajor);
-                }
-
-                // 兜底: getprop ro.build.version.release (如 "15" / "14" / "13.0", 用于自编译内核等无androidNN标记的情况)
-                if (androidMajor == 0)
-                {
-                    var androidMatch = System.Text.RegularExpressions.Regex.Match(androidVersion.Trim(), @"^(\d+)");
-                    if (androidMatch.Success) int.TryParse(androidMatch.Groups[1].Value, out androidMajor);
-                }
-
-                // 扫描 pathmask 目录, 动态收集候选 (新增版本zip无需改代码)
-                var candidates = new List<(string FilePath, int Android, string Kernel)>();
-                foreach (string file in Directory.GetFiles(pathmaskDir, "a*.zip", SearchOption.TopDirectoryOnly))
-                {
-                    var m = System.Text.RegularExpressions.Regex.Match(Path.GetFileNameWithoutExtension(file), @"^a(\d+)-(\d+\.\d+)$");
-                    if (!m.Success) continue;
-                    if (!int.TryParse(m.Groups[1].Value, out int android)) continue;
-                    candidates.Add((file, android, m.Groups[2].Value));
-                }
-                if (candidates.Count == 0) return null;
-
-                // 第一优先级: 内核 + 安卓都匹配
-                var exact = candidates.FirstOrDefault(c => c.Kernel == kernelPrefix && c.Android == androidMajor);
-                if (!string.IsNullOrEmpty(exact.FilePath)) return exact.FilePath;
-
-                // 第二优先级: 仅内核匹配, 选安卓版本最接近的 (如 5.10 内核同时有 a12/a13)
-                var kernelOnly = candidates.Where(c => c.Kernel == kernelPrefix)
-                    .OrderBy(c => Math.Abs(c.Android - androidMajor))
-                    .ToList();
-                if (kernelOnly.Count > 0) return kernelOnly[0].FilePath;
-
-                return null;
+                return Directory.GetFiles(extractPath, "*.zip", SearchOption.TopDirectoryOnly)
+                    .Select(Path.GetFileName)
+                    .FirstOrDefault(f => f.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
             }
-            catch (Exception ex)
+            catch
             {
-                AddHiddenRootLog("警告", $"选择PathMask模块失败: {ex.Message}");
                 return null;
             }
         }
