@@ -128,6 +128,16 @@ dotnet publish VioletToolBox/SmartTool.csproj -c Release -r win-x64 --self-conta
 
 请从 [Releases](../../releases) 下载完整发布包并解压后运行 `VioletToolBox.exe`。不要单独删除发布包内的 DLL、`exe`、`avbtool`、PEM 或其他运行依赖，源码需要将`VioletToolBox-win-x64.zip`依赖文件移动到Release目录才能正常使用.
 
+## Star History
+
+<a href="https://www.star-history.com/?repos=violettoolbox%2Fviolettoolbox&type=date&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=violettoolbox/violettoolbox&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=violettoolbox/violettoolbox&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=violettoolbox/violettoolbox&type=date&legend=top-left" />
+ </picture>
+</a>
+
 ## 许可证
 
 本项目采用 GNU General Public License v3.0（GPL-3.0）或更高版本授权，详见 [LICENSE](LICENSE)。
