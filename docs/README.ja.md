@@ -45,6 +45,12 @@ dotnet publish VioletToolBox/SmartTool.csproj -c Release -r win-x64 --self-conta
 
 [Releases](../../releases) から完全なパッケージを展開して `VioletToolBox.exe` を実行してください。DLL、`exe`、`avbtool`、PEM などの依存ファイルは削除しないでください。ソースから発行した場合は `VioletToolBox-win-x64.zip` の依存ファイルを Release ディレクトリへ配置します。
 
+## 表示言語の切り替え
+
+タイトルバー右側の言語ボタンを押すと、`简体中文 → English → 日本語` の順に表示言語が切り替わります。ボタンには現在の言語（`中` / `EN` / `日`）が表示され、ツールチップで次に切り替わる言語を確認できます。
+
+選択した言語は `%LOCALAPPDATA%\VioletTool\ui-language.txt` に保存され、次回起動時にも引き継がれます。ファイルを削除すると简体中文に戻ります。
+
 ## ライセンス
 
 GNU General Public License v3.0 以降で提供されます。[LICENSE](../LICENSE) を参照してください。

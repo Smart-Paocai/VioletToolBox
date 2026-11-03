@@ -6971,9 +6971,9 @@ namespace WpfApp1
                     return;
                 }
 
-                string platform = ((ComboBoxItem)OcdtSizeComboBox.SelectedItem).Content.ToString();
+                string platform = GetRawLocalizedContent((ComboBoxItem)OcdtSizeComboBox.SelectedItem) ?? "";
                 string size = platform == "联发科" ? "8mb" : "128kb";
-                string variant = ((ComboBoxItem)OcdtVariantComboBox.SelectedItem).Content.ToString();
+                string variant = GetRawLocalizedContent((ComboBoxItem)OcdtVariantComboBox.SelectedItem) ?? "";
 
                 // 弹出文件夹选择对话框让用户选择保存的目录
                 using (var folderDialog = new System.Windows.Forms.FolderBrowserDialog())
@@ -9567,13 +9567,13 @@ namespace WpfApp1
             {
                 // 获取ComboBox中选择的命令
                 if (UnlockBLComboBox.SelectedItem is not ComboBoxItem selectedItem ||
-                    string.IsNullOrWhiteSpace(selectedItem.Content?.ToString()))
+                    string.IsNullOrWhiteSpace(GetRawLocalizedContent(selectedItem)))
                 {
                     LogSimpleStatus("请先选择要执行的命令...");
                     return;
                 }
 
-                string selectedCommand = selectedItem.Content.ToString()!;
+                string selectedCommand = GetRawLocalizedContent(selectedItem)!;
                  
                 // 先检测设备连接
                 string fastbootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "platform-tools", "fastboot.exe");
@@ -9669,7 +9669,7 @@ namespace WpfApp1
                 string selectedPartition = "boot";
                 if (PartitionComboBox.SelectedItem is ComboBoxItem selectedItem)
                 {
-                    selectedPartition = selectedItem.Content?.ToString() ?? "boot";
+                    selectedPartition = GetRawLocalizedContent(selectedItem) ?? "boot";
                 }
 
                 var imageInfo = new FileInfo(bootFilePath);
@@ -17742,12 +17742,7 @@ public partial class MainWindow : Window
             }
 
             // 检测是否勾选“排除敏感文件”
-            bool excludeSensitive = false;
-            var genBtn = this.FindName("GenerateFlashScriptButton") as System.Windows.Controls.Button;
-            var parentGrid = genBtn?.Parent as System.Windows.Controls.Grid;
-            var sensitiveCb = parentGrid?.Children.OfType<System.Windows.Controls.CheckBox>()
-                .FirstOrDefault(cb => (cb.Content?.ToString() ?? string.Empty) == "排除敏感文件");
-            if (sensitiveCb?.IsChecked == true) excludeSensitive = true;
+            bool excludeSensitive = ExcludeSensitiveFlashScriptCheckBox.IsChecked == true;
 
             if (excludeSensitive)
             {
@@ -17930,9 +17925,8 @@ public partial class MainWindow : Window
                 }
             }
 
-            var grid = (sender as System.Windows.Controls.Button)?.Parent as System.Windows.Controls.Grid;
-            bool needWipe = grid?.Children.OfType<System.Windows.Controls.CheckBox>().FirstOrDefault(cb => (cb.Content?.ToString() ?? string.Empty) == "清除数据")?.IsChecked == true;
-            bool needReboot = grid?.Children.OfType<System.Windows.Controls.CheckBox>().FirstOrDefault(cb => (cb.Content?.ToString() ?? string.Empty) == "自动重启")?.IsChecked == true;
+            bool needWipe = ConvertFlashWipeCheckBox.IsChecked == true;
+            bool needReboot = ConvertFlashRebootCheckBox.IsChecked == true;
 
             if (needWipe)
             {
@@ -20392,7 +20386,7 @@ public partial class MainWindow : Window
             var selectedItem = comboBox.SelectedItem as ComboBoxItem;
             if (selectedItem == null) return;
 
-            string selectedCommand = selectedItem.Content?.ToString() ?? "";
+            string selectedCommand = GetRawLocalizedContent(selectedItem) ?? "";
 
             // 如果选择的是默认项，不执行任何操作
             if (selectedCommand == "更多重启指令↓")

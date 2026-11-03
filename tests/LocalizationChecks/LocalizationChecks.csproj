@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Compile the production translator without starting device services or the app. -->
+    <Compile Include="../../VioletToolBox/MainWindow.Localization.cs" Link="MainWindow.Localization.cs" />
+    <PackageReference Include="HandyControl" Version="3.5.1" />
+    <None Include="../../VioletToolBox/MainWindow.xaml" Link="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
