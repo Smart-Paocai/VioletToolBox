@@ -3,11 +3,13 @@
 param(
     [string]$Message = 'feat: add Japanese UI localization and preserve operation identifiers',
     [string]$Title = 'Add Japanese UI localization and fix language-dependent operations',
-    [switch]$CheckOnly
+    [switch]$CheckOnly,
+    [switch]$CheckAuthentication
 )
 
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot 'GitHubAuthentication.ps1')
 
 function Invoke-Git {
     param([Parameter(ValueFromRemainingArguments = $true)][string[]]$GitArgs)
@@ -18,9 +20,30 @@ function Invoke-Git {
 
 Push-Location $repoRoot
 try {
-    foreach ($command in @('git', 'dotnet')) {
+    if ($CheckOnly -and $CheckAuthentication) { throw 'Choose either CheckOnly or CheckAuthentication.' }
+    $requiredCommands = @('git')
+    if (-not $CheckAuthentication) { $requiredCommands += 'dotnet' }
+    foreach ($command in $requiredCommands) {
         if (-not (Get-Command $command -ErrorAction SilentlyContinue)) {
             throw "Required command not found: $command"
+        }
+    }
+    # Fail early on authentication errors, before building or staging anything.
+    if (-not $CheckOnly) {
+        $token = Get-GitHubToken
+        $headers = @{
+            Authorization = "Bearer $token"
+            Accept = 'application/vnd.github+json'
+            'User-Agent' = 'VioletToolBox-submit-localization'
+            'X-GitHub-Api-Version' = '2022-11-28'
+        }
+        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+        $api = 'https://api.github.com'
+        if ($CheckAuthentication) {
+            $account = Invoke-RestMethod -Uri "$api/user" -Headers $headers
+            if (-not $account.login) { throw 'GitHub did not return an authenticated account.' }
+            Write-Host "GitHub authentication OK: $($account.login). No commit, push or PR operation was performed."
+            return
         }
     }
     Invoke-Git diff --check
@@ -44,25 +67,6 @@ try {
         throw 'origin must be a GitHub repository using HTTPS or SSH.'
     }
     $fork = $Matches[1]
-    # Credentials remain in memory; nothing is printed or written to the repository.
-    $token = $env:GH_TOKEN
-    if (-not $token) { $token = $env:GITHUB_TOKEN }
-    if (-not $token) {
-        $credentialLines = "protocol=https`nhost=github.com`n`n" | & git credential fill
-        if ($LASTEXITCODE -ne 0) { throw 'GitHub authentication is required. Sign in with Git Credential Manager or set GH_TOKEN.' }
-        foreach ($line in $credentialLines) {
-            if ($line.StartsWith('password=')) { $token = $line.Substring(9) }
-        }
-    }
-    if (-not $token) { throw 'No GitHub API credential found. Sign in with Git Credential Manager or set GH_TOKEN.' }
-    $headers = @{
-        Authorization = "Bearer $token"
-        Accept = 'application/vnd.github+json'
-        'User-Agent' = 'VioletToolBox-submit-localization'
-        'X-GitHub-Api-Version' = '2022-11-28'
-    }
-    [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-    $api = 'https://api.github.com'
     $forkInfo = Invoke-RestMethod -Uri "$api/repos/$fork" -Headers $headers
     if (-not $forkInfo.fork -or -not $forkInfo.parent) { throw 'origin must point to your fork.' }
     $target = $forkInfo.parent.full_name
@@ -86,9 +90,12 @@ try {
         'docs/submit-localization.md',
         'docs/pull-request.ja.md',
         'scripts/submit-localization.ps1',
+        'scripts/GitHubAuthentication.ps1',
         'submit-localization.cmd',
         'tests/LocalizationChecks/LocalizationChecks.csproj',
-        'tests/LocalizationChecks/Program.cs'
+        'tests/LocalizationChecks/Program.cs',
+        'tests/SubmissionScriptChecks.ps1',
+        'tests/GitHubAuthenticationChecks.ps1'
     )
     $unexpected = @(Invoke-Git diff --cached --name-only | Where-Object { $_ -notin $paths })
     if ($unexpected.Count) { throw "Unrelated staged files found. Unstage them first: $($unexpected -join ', ')" }
@@ -109,13 +116,20 @@ try {
     $head = $forkInfo.owner.login + ':' + $branch
     $headQuery = [Uri]::EscapeDataString($head)
     $baseQuery = [Uri]::EscapeDataString($base)
-    $existing = @(Invoke-RestMethod -Uri "$api/repos/$target/pulls?state=open&head=$headQuery&base=$baseQuery" -Headers $headers)
+    # Invoke-RestMethod emits a JSON array as a single pipeline object in Windows
+    # PowerShell. Wrapping the command directly in @() counts even [] as one item.
+    # Assign first, then enumerate the value so an empty response stays empty.
+    $response = Invoke-RestMethod -Uri "$api/repos/$target/pulls?state=open&head=$headQuery&base=$baseQuery" -Headers $headers
+    $existing = @($response | Where-Object { $null -ne $_ })
     if ($existing.Count) {
-        Write-Host "Updated existing PR: $($existing[0].html_url)"
+        $prUrl = [string]$existing[0].html_url
+        if ([string]::IsNullOrWhiteSpace($prUrl)) { throw 'GitHub returned a PR without a URL. No PR success was confirmed.' }
+        Write-Host "Existing PR: $prUrl"
     } else {
         $body = Get-Content (Join-Path $repoRoot 'docs/pull-request.ja.md') -Raw -Encoding UTF8
         $payload = @{ title = $Title; head = $head; base = $base; body = $body } | ConvertTo-Json
         $pr = Invoke-RestMethod -Method Post -Uri "$api/repos/$target/pulls" -Headers $headers -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($payload))
+        if ([string]::IsNullOrWhiteSpace([string]$pr.html_url)) { throw 'GitHub returned no PR URL. No PR success was confirmed.' }
         Write-Host "Created PR: $($pr.html_url)"
     }
 } catch {
