@@ -4500,7 +4500,7 @@
                                     </Style>
                                 </ProgressBar.Style>
                             </ProgressBar>
-                            <TextBlock HorizontalAlignment="Left" Margin="44,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="415" FontFamily="Microsoft YaHei UI" FontSize="11.5" Foreground="#FFD97706"><Run Text="本功能"/><Run Text="建议线刷后"/><Run Text="搭配KernelSU"/><Run Text="使用"/><Run Text="，"/><Run Text="本界面"/><Run Text="特别"/><Run Language="zh-cn" Text="鸣谢"/><Run Text="@王听"/><Run Text=" "/><Run Text="@月饼"/><Run Text=" 开发"/></TextBlock>
+                            <TextBlock HorizontalAlignment="Left" Margin="44,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="415" FontFamily="Microsoft YaHei UI" FontSize="11.5" Foreground="#FFD97706"><Run Text="本功能建议线刷后搭配KernelSU使用，本界面特别鸣谢@王听 @月饼 开发"/></TextBlock>
                             <CheckBox x:Name="InstallZip6CheckBox" Content="额外安装LSP" HorizontalAlignment="Left" Margin="176,166,0,0" VerticalAlignment="Top" Width="104" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}"/>
                             <CheckBox x:Name="AddRescueModuleCheckBox" Content="添加救砖模块" HorizontalAlignment="Left" Margin="176,184,0,0" VerticalAlignment="Top" Width="104" Style="{StaticResource HiddenEnvironmentCheckBoxStyle}"/>
                             <GroupBox Header="快捷安装"
@@ -4990,7 +4990,7 @@
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Grid.Row="0" Style="{StaticResource VioletPanelTitleStyle}" Text="下载配置"/>
-                                                <TextBlock Grid.Row="1" Style="{StaticResource VioletPanelSubtitleStyle}"><Run Text="请下载前先确保"/><Run Language="zh-cn" Text="文件存放"/><Run Text="位置有足够多的磁盘空间"/><Run Text=".       冷知识：如果磁盘空间不够"/><Run Text="导致"/><Run Text="下载错误"/><Run Text="，可以在清理出足够的磁盘空间后选择续传功能."/><LineBreak/><Run/></TextBlock>
+                                                <TextBlock Grid.Row="1" Style="{StaticResource VioletPanelSubtitleStyle}"><Run Text="下载前请确保保存目录有足够的磁盘空间。若空间不足导致下载错误，请清理磁盘后继续下载。"/></TextBlock>
 
                                                 <TextBlock Grid.Row="2" Style="{StaticResource VioletLabelStyle}" Margin="0,0,0,12" Text="初始下载链接"/>
                                                 <TextBox x:Name="VioletDownloadUrlTextBox"
@@ -7919,7 +7919,7 @@
                                             <TextBlock Style="{StaticResource ColorOSTitleStyle}" Text="操作"/>
                                             <TextBlock Style="{StaticResource ColorOSSubtitleStyle}"
                                                        Margin="0,4,0,0"
-                                                       ><Run Text="若查询不到降级包，请将设备连接网络后，手动"/><Run Language="zh-cn" Text="在"/><Run Text="设备上检查一遍更新后再重新尝试查询."/></TextBlock>
+                                                       ><Run Text="若查询不到降级包，请先将设备联网并手动检查系统更新，然后重新查询。"/></TextBlock>
                                             <Button x:Name="BtnDownloadApk"
                                                     Margin="0,12,0,0"
                                                     Width="248"
@@ -8326,7 +8326,7 @@
                                             <!-- 社交媒体区域 -->
                                             <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" VerticalAlignment="Center">
                                                 <TextBlock Text="感谢支持" FontSize="15" FontWeight="SemiBold" Foreground="#FF1F2328" Margin="0,0,0,8"/>
-                                                <TextBlock Style="{StaticResource AboutBodyTextStyle}" Margin="0,0,0,16"><Run Text="如果您觉得我们的作品还"/><Run Text="不错"/><Run Text="，您可以对本程序进行赞赏，1块2"/><Run Language="zh-cn" Text="块"/><Run Text="不嫌少，您的支持是对本程序持续免费维护的最大动力，我们会在您的支持下优化得越来越好！"/></TextBlock>
+                                                <TextBlock Style="{StaticResource AboutBodyTextStyle}" Margin="0,0,0,16"><Run Text="如果您喜欢本程序，欢迎赞赏支持，金额不限。您的支持是本程序持续免费维护和改进的动力！"/></TextBlock>
 
                                                 <TextBlock Text="社交媒体" FontSize="13" FontWeight="SemiBold" Foreground="#FF656D76" Margin="0,0,0,7"/>
 
@@ -9128,7 +9128,7 @@
                                         </Button.Content>
                                     </Button>
                                     <Button x:Name="GenerateFlashScriptButton" Content="开始生成" HorizontalAlignment="Left" Margin="253,36,0,0" VerticalAlignment="Top" Width="85" Click="GenerateFlashScriptButton_Click" Background="#FFE0BCF5" BorderBrush="#FFE0BCF5" Foreground="White"/>
-                                    <CheckBox Content="排除敏感文件" HorizontalAlignment="Left" Margin="-8,42,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked_3" IsChecked="True" ToolTip="排除绑定指纹和基带的关键分区"/>
+                                    <CheckBox x:Name="ExcludeSensitiveFlashScriptCheckBox" Content="排除敏感文件" HorizontalAlignment="Left" Margin="-8,42,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked_3" IsChecked="True" ToolTip="排除绑定指纹和基带的关键分区"/>
                                 </Grid>
                             </GroupBox>
                             <GroupBox
@@ -9241,9 +9241,9 @@
                                         </Button.Content>
                                     </Button>
                                     <Button x:Name="StartConvertFlashButton" Content="开始线刷" HorizontalAlignment="Left" Margin="253,41,0,0" VerticalAlignment="Top" Width="85" Click="StartConvertFlashButton_Click" BorderBrush="#FFE0BCF5" Background="#FFE0BCF5" Foreground="White"/>
-                                    <TextBlock HorizontalAlignment="Left" Margin="0,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Gray" FontSize="10" RenderTransformOrigin="1.65,1.333" Width="174"><Run Text="未"/><Run Text="解包请"/><Run Text="先"/><Run Text="切换"/><Run Text="到欧加"/><Run Text="线刷"/><Run Text="区域"/><Run Language="zh-cn" Text="解包"/></TextBlock>
-                                    <CheckBox Content="清除数据" HorizontalAlignment="Left" Margin="-5,38,0,0" Checked="CheckBox_Checked_4" VerticalAlignment="Top"/>
-                                    <CheckBox Content="自动重启" HorizontalAlignment="Left" Margin="79,39,0,0" VerticalAlignment="Top"/>
+                                    <TextBlock HorizontalAlignment="Left" Margin="0,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Gray" FontSize="10" RenderTransformOrigin="1.65,1.333" Width="174"><Run Text="未解包请先切换到欧加线刷区域解包"/></TextBlock>
+                                    <CheckBox x:Name="ConvertFlashWipeCheckBox" Content="清除数据" HorizontalAlignment="Left" Margin="-5,38,0,0" Checked="CheckBox_Checked_4" VerticalAlignment="Top"/>
+                                    <CheckBox x:Name="ConvertFlashRebootCheckBox" Content="自动重启" HorizontalAlignment="Left" Margin="79,39,0,0" VerticalAlignment="Top"/>
                                 </Grid>
                             </GroupBox>
                             <GroupBox
@@ -9451,7 +9451,7 @@
 
                                     <Button x:Name="GenerateOcdtButton" Content="生成 OCDT" HorizontalAlignment="Left" Margin="0,73,0,0" VerticalAlignment="Top" Width="338" Height="30" Click="GenerateOcdtButton_Click" Background="#FFE0BCF5" BorderBrush="#FFE0BCF5" Foreground="White"/>
 
-                                    <TextBlock HorizontalAlignment="Left" Margin="0,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="338" FontSize="11" Foreground="#FF666666" LineHeight="16"><Run Text="只需要选择你对应的处理器和项目和然后点击生成即可"/><Run Text="！"/><LineBreak/><Run/><Run Text="项目号如何获取？只需下载一个线刷包（售后包）并解压，然后找到线刷包中的version_info.txt文件，然后打开找到project=‘项目号’"/><Run Text="，将"/><Run Language="zh-cn" Text="项目号填入到此处点击生成."/></TextBlock>
+                                    <TextBlock HorizontalAlignment="Left" Margin="0,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="338" FontSize="11" Foreground="#FF666666" LineHeight="16"><Run Text="选择对应的处理器和项目号后点击生成。项目号可在解压后的售后线刷包 version_info.txt 中查看 project= 字段。"/></TextBlock>
                                 </Grid>
                             </GroupBox>
                         </Grid>

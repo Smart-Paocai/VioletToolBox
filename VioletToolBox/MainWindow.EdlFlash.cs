@@ -4114,7 +4114,7 @@ namespace WpfApp1
             if (selectedItem == null)
                 return;
 
-            string selectedContent = selectedItem.Content?.ToString() ?? "";
+            string selectedContent = GetRawLocalizedContent(selectedItem) ?? "";
             if (EdlSendLoaderCheckBox != null)
                 EdlSendLoaderCheckBox.IsChecked = true;
 

@@ -2257,7 +2257,7 @@ namespace WpfApp1
 
         private static string? GetSelectedComboBoxItemText(System.Windows.Controls.ComboBox? comboBox)
         {
-            return (comboBox?.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString();
+            return GetRawLocalizedContent(comboBox?.SelectedItem as System.Windows.Controls.ComboBoxItem);
         }
 
         private string GetSelectedRomSelectPackageType()
@@ -2622,7 +2622,7 @@ namespace WpfApp1
                     Item = item,
                     Index = index,
                     Text = item is ComboBoxItem comboBoxItem
-                        ? comboBoxItem.Content?.ToString() ?? string.Empty
+                        ? GetRawLocalizedContent(comboBoxItem) ?? string.Empty
                         : item?.ToString() ?? string.Empty
                 })
                 .OrderBy(entry => entry.Text, RomVersionDisplayComparer)
@@ -2642,9 +2642,9 @@ namespace WpfApp1
             if (string.IsNullOrWhiteSpace(device)) return;
             var packageType = GetSelectedRomSelectPackageType();
             if (string.IsNullOrWhiteSpace(packageType)) packageType = _activeRomSelectPackageType;
-            var brand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand)) brand = _activeRomSelectBrand;
-            var series = (RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var series = GetRawLocalizedContent(RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(series)) series = _activeRomSelectSeries;
             if (string.IsNullOrWhiteSpace(packageType) || string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(series)) return;
 
@@ -2727,7 +2727,7 @@ namespace WpfApp1
         {
             if (RomSelectBrandComboBox == null || RomSelectSeriesComboBox == null) return;
 
-            var brand = (RomSelectBrandComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomSelectBrandComboBox.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand)) return;
 
             var packageType = GetSelectedRomSelectPackageType();
@@ -2736,7 +2736,7 @@ namespace WpfApp1
                 : GetRomSelectSeriesNames(packageType, brand).ToList();
 
             cancellationToken.ThrowIfCancellationRequested();
-            var currentBrand = (RomSelectBrandComboBox.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var currentBrand = GetRawLocalizedContent(RomSelectBrandComboBox.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (!string.Equals(currentBrand, brand, StringComparison.OrdinalIgnoreCase) ||
                 !string.Equals(GetSelectedRomSelectPackageType(), packageType, StringComparison.OrdinalIgnoreCase))
             {
@@ -2839,7 +2839,7 @@ namespace WpfApp1
 
         private void RefreshSelectedLinksFromCurrentVersion()
         {
-            var version = (RomVersionComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString();
+            var version = GetRawLocalizedContent(RomVersionComboBox?.SelectedItem as ComboBoxItem);
             if (string.IsNullOrWhiteSpace(version))
             {
                 _selectedRomDownloadLinks.Clear();
@@ -2849,7 +2849,7 @@ namespace WpfApp1
 
             if (_romDownloadItemsByVersionName.TryGetValue(version, out var item) && item != null)
             {
-                var brand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomDownloadBrand;
+                var brand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? _activeRomDownloadBrand;
                 _selectedRomDownloadLinks = PreferRomArchiveLinks(RomSelectPackageTypeFull, brand, item.DownloadLinks ?? new List<string>());
                 _selectedRomDownloadHeaders = item.RequestHeaders != null
                     ? new Dictionary<string, string>(item.RequestHeaders, StringComparer.OrdinalIgnoreCase)
@@ -2857,7 +2857,7 @@ namespace WpfApp1
             }
             else if (_romDownloadLinksByVersionName.TryGetValue(version, out var links) && links != null)
             {
-                var brand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomDownloadBrand;
+                var brand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? _activeRomDownloadBrand;
                 _selectedRomDownloadLinks = PreferRomArchiveLinks(RomSelectPackageTypeFull, brand, links);
                 _selectedRomDownloadHeaders.Clear();
             }
@@ -2872,8 +2872,8 @@ namespace WpfApp1
         {
             if (string.IsNullOrWhiteSpace(device)) return;
 
-            var brand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
-            var series = (RomSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
+            var series = GetRawLocalizedContent(RomSeriesComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand)) brand = _activeRomDownloadBrand;
             if (string.IsNullOrWhiteSpace(series)) series = _activeRomDownloadSeries;
             if (!string.IsNullOrWhiteSpace(brand) &&
@@ -2915,7 +2915,7 @@ namespace WpfApp1
         {
             if (_romDownloadUiUpdating) return;
 
-            var series = (RomSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString();
+            var series = GetRawLocalizedContent(RomSeriesComboBox?.SelectedItem as ComboBoxItem);
             if (string.IsNullOrWhiteSpace(series)) return;
 
             _romConfigLoadCts?.Cancel();
@@ -2925,7 +2925,7 @@ namespace WpfApp1
 
             try
             {
-                var brand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+                var brand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
                 if (string.IsNullOrWhiteSpace(brand))
                 {
                     ClearRomDeviceAndVersion();
@@ -2995,7 +2995,7 @@ namespace WpfApp1
         {
             if (_romDownloadUiUpdating) return;
 
-            var device = (RomDeviceComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString();
+            var device = GetRawLocalizedContent(RomDeviceComboBox?.SelectedItem as ComboBoxItem);
             if (string.IsNullOrWhiteSpace(device)) return;
 
             _ = LoadDeviceVersionsAndLogAsync(device);
@@ -3011,7 +3011,7 @@ namespace WpfApp1
         {
             if (RomSeriesComboBox == null) return;
 
-            var selectedContent = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString();
+            var selectedContent = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem);
             if (string.IsNullOrWhiteSpace(selectedContent)) return;
 
             var seriesNames = UseRomBackendApi
@@ -3019,7 +3019,7 @@ namespace WpfApp1
                 : GetRomDownloadSeriesNames(selectedContent).ToList();
 
             cancellationToken.ThrowIfCancellationRequested();
-            var currentBrand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var currentBrand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (!string.Equals(currentBrand, selectedContent, StringComparison.OrdinalIgnoreCase))
             {
                 return;
@@ -3052,7 +3052,7 @@ namespace WpfApp1
         {
             if (_romDownloadUiUpdating) return;
 
-            var brand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand)) return;
 
             _romBrandSeriesLoadCts?.Cancel();
@@ -3079,7 +3079,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                var currentBrand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+                var currentBrand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
                 if (cancellationToken.IsCancellationRequested ||
                     !string.Equals(currentBrand, brand, StringComparison.OrdinalIgnoreCase))
                 {
@@ -3097,7 +3097,7 @@ namespace WpfApp1
         {
             if (_romSelectUiUpdating) return;
 
-            var brand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand)) return;
 
             _romSelectBrandSeriesLoadCts?.Cancel();
@@ -3117,7 +3117,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                var currentBrand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+                var currentBrand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
                 if (cancellationToken.IsCancellationRequested ||
                     !string.Equals(currentBrand, brand, StringComparison.OrdinalIgnoreCase))
                 {
@@ -3136,8 +3136,8 @@ namespace WpfApp1
             if (_romSelectUiUpdating) return;
             
             // 保存当前选择
-            var currentBrand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
-            var currentSeries = (RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var currentBrand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
+            var currentSeries = GetRawLocalizedContent(RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             
             // 获取新的包类型
             var packageType = GetSelectedRomSelectPackageType();
@@ -3191,8 +3191,8 @@ namespace WpfApp1
             if (_romSelectUiUpdating) return;
 
             var packageType = GetSelectedRomSelectPackageType();
-            var brand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
-            var series = (RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
+            var series = GetRawLocalizedContent(RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(series)) return;
 
             if (!TryGetRomSelectSeriesUrl(packageType, brand, series, out var url))
@@ -3238,7 +3238,7 @@ namespace WpfApp1
         {
             if (_romSelectUiUpdating) return;
 
-            var device = (RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString();
+            var device = GetRawLocalizedContent(RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem);
             if (string.IsNullOrWhiteSpace(device)) return;
             _ = LoadRomSelectDeviceVersionsAsync(device);
             UpdateRomSelectParsedLinkDisplay();
@@ -3284,7 +3284,7 @@ namespace WpfApp1
                 }
                 else
                 {
-                    var versionName = (RomSelectVersionComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+                    var versionName = GetRawLocalizedContent(RomSelectVersionComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
                     _romSelectLinkOptionsByVersionName.TryGetValue(versionName, out var linkOptions);
                     SetRomSelectOutput(FormatRomLinkOutput(_activeRomSelectBrand, links, linkOptions));
                 }
@@ -3351,7 +3351,7 @@ namespace WpfApp1
 
         private Dictionary<string, string> GetSelectedRomSelectRequestHeaders()
         {
-            var version = (RomSelectVersionComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var version = GetRawLocalizedContent(RomSelectVersionComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(version)) return new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             if (_romSelectItemsByVersionName.TryGetValue(version, out var item) &&
@@ -3373,10 +3373,10 @@ namespace WpfApp1
         private IReadOnlyList<string> GetSelectedRomSelectDownloadLinks()
         {
             var packageType = GetSelectedRomSelectPackageType();
-            var brand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
-            var series = (RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
-            var device = (RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
-            var version = (RomSelectVersionComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
+            var series = GetRawLocalizedContent(RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
+            var device = GetRawLocalizedContent(RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
+            var version = GetRawLocalizedContent(RomSelectVersionComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(brand) ||
                 string.IsNullOrWhiteSpace(series) ||
@@ -3426,12 +3426,12 @@ namespace WpfApp1
         private async void RomSelectCopyLinksButton_Click(object sender, RoutedEventArgs e)
         {
             var links = GetSelectedRomSelectDownloadLinks();
-            var versionName = (RomSelectVersionComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var versionName = GetRawLocalizedContent(RomSelectVersionComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             _romSelectLinkOptionsByVersionName.TryGetValue(versionName, out var linkOptions);
             var packageType = ToRomApiPackageType(GetSelectedRomSelectPackageType());
-            var brand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomSelectBrand;
-            var series = (RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomSelectSeries;
-            var device = (RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? _activeRomSelectBrand;
+            var series = GetRawLocalizedContent(RomSelectSeriesComboBox?.SelectedItem as ComboBoxItem) ?? _activeRomSelectSeries;
+            var device = GetRawLocalizedContent(RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             bool refreshC16Link = UseRomBackendApi &&
                                   IsC16Brand(brand) &&
                                   device.StartsWith("[C16动态解析]", StringComparison.OrdinalIgnoreCase);
@@ -3808,7 +3808,7 @@ namespace WpfApp1
                 return;
             }
 
-            string presetModelName = CleanLink(selectedItem.Content?.ToString());
+            string presetModelName = CleanLink(GetRawLocalizedContent(selectedItem));
             string mtm = CleanLink(selectedItem.Tag?.ToString()).ToUpperInvariant();
             if (string.IsNullOrWhiteSpace(presetModelName) || string.IsNullOrWhiteSpace(mtm))
             {
@@ -3941,7 +3941,7 @@ namespace WpfApp1
                 return null;
             }
 
-            string deviceName = (RomDeviceComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            string deviceName = GetRawLocalizedContent(RomDeviceComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             string deviceCode = string.Empty;
             string otaVersion = string.Empty;
 
@@ -4025,7 +4025,7 @@ namespace WpfApp1
                 return null;
             }
 
-            string deviceName = (RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            string deviceName = GetRawLocalizedContent(RomSelectDeviceComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             string deviceCode = string.Empty;
             string otaVersion = string.Empty;
 
@@ -4100,7 +4100,7 @@ namespace WpfApp1
             if ((deviceConfig.Items == null || deviceConfig.Items.Count == 0) &&
                 !IsC16NativeDevice(deviceConfig.Device ?? string.Empty)) return;
 
-            var brand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand)) brand = _activeRomDownloadBrand;
             if (!IsC16Brand(brand)) return;
             if (_c16Records == null || _c16Records.Count == 0) return;
@@ -4154,7 +4154,7 @@ namespace WpfApp1
             if ((deviceConfig.Items == null || deviceConfig.Items.Count == 0) &&
                 !IsC16NativeDevice(deviceConfig.Device ?? string.Empty)) return;
 
-            var brand = (RomSelectBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+            var brand = GetRawLocalizedContent(RomSelectBrandComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
             if (string.IsNullOrWhiteSpace(brand)) brand = _activeRomSelectBrand;
             if (!IsC16Brand(brand)) return;
             if (_c16Records == null || _c16Records.Count == 0) return;
@@ -4164,7 +4164,7 @@ namespace WpfApp1
             var existingNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var item in RomSelectVersionComboBox.Items.OfType<ComboBoxItem>())
             {
-                var name = item.Content?.ToString();
+                var name = GetRawLocalizedContent(item);
                 if (string.IsNullOrWhiteSpace(name)) continue;
                 existingNames.Add(name.Trim());
             }
@@ -4368,9 +4368,9 @@ namespace WpfApp1
 
                 if (UseRomBackendApi && _selectedRomDownloadLinks.Count == 0)
                 {
-                    var brand = (RomBrandComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomDownloadBrand;
-                    var series = (RomSeriesComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? _activeRomDownloadSeries;
-                    var device = (RomDeviceComboBox?.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? string.Empty;
+                    var brand = GetRawLocalizedContent(RomBrandComboBox?.SelectedItem as ComboBoxItem) ?? _activeRomDownloadBrand;
+                    var series = GetRawLocalizedContent(RomSeriesComboBox?.SelectedItem as ComboBoxItem) ?? _activeRomDownloadSeries;
+                    var device = GetRawLocalizedContent(RomDeviceComboBox?.SelectedItem as ComboBoxItem) ?? string.Empty;
                     var response = await FetchRomApiDownloadLinksAsync(RomApiPackageTypeFull, brand, series, device, versionName, CancellationToken.None).ConfigureAwait(true);
                     _selectedRomDownloadLinks = PreferRomArchiveLinks(RomApiPackageTypeFull, brand, response.Links);
                     var routeDisplayName = GetRomResolveRouteDisplayName(response.ResolveRoute);

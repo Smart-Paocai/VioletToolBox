@@ -261,7 +261,7 @@ namespace WpfApp1
             // 检查是否选择了云解包方案
             if (sender is System.Windows.Controls.ComboBox comboBox && comboBox.SelectedItem is ComboBoxItem selectedItem)
             {
-                string selectedContent = selectedItem.Content?.ToString() ?? "";
+                string selectedContent = GetRawLocalizedContent(selectedItem) ?? "";
                 if (selectedContent == "云解包方案-从云端提取线刷文件")
                 {
                     // 当选择云解包方案时，显示提示信息

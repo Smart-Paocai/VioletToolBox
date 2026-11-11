@@ -85,6 +85,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </None>
+    <!-- fh_loader.exe is required by the EDL page; without this it never reaches the output. -->
+    <None Update="fh_loader.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </None>
     <!-- Official Release packages may provide these runtime tools separately. -->
     <Content Include="..\断点续传\aria2c.exe" Condition="Exists('..\断点续传\aria2c.exe')">
       <Link>exe\aria2c.exe</Link>
@@ -193,6 +198,12 @@
   <ItemGroup>
     <Resource Include="paocai.jpg" />
     <Resource Include="neko.png" />
+    <!-- MainWindow.xaml references these icons under names that were never added to the
+         repository, so the artwork is shipped under both names. android.svg reuses
+         images/安卓.svg and 备份.svg reuses images/备份数据.svg with its white fill recoloured
+         to the #1296db used by the other navigation icons (white is invisible on the sidebar). -->
+    <Resource Include="images\android.svg" />
+    <Resource Include="images\备份.svg" />
   </ItemGroup>
 
   <ItemGroup>
