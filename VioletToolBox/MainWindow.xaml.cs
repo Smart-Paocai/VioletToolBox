@@ -8284,7 +8284,12 @@ namespace WpfApp1
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
-                        CreateNoWindow = true
+                        CreateNoWindow = true,
+                        // adb / fastboot 的输出统一为 UTF-8。
+                        // 不显式指定时 .NET 会按系统 OEM 代码页（中文 Windows 为 GBK/936）解码，
+                        // 导致设备返回的中文属性值（如 ro.build.version.incremental）显示为乱码。
+                        StandardOutputEncoding = new UTF8Encoding(false),
+                        StandardErrorEncoding = new UTF8Encoding(false)
                     }
                 };
                 process.Start();
